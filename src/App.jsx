@@ -7,7 +7,7 @@ import NotFound from "./pages/NotFound"
 function App() {
   return (
     <BrowserRouter>
-      <div className="bg-[#0D1117]">
+      <div>
         <div className="flex flex-col justify-between h-screen">
           <Navbar />
 
