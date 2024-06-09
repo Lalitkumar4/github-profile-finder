@@ -1,10 +1,30 @@
+import { useContext, useState } from "react"
 import { FaGithub } from "react-icons/fa"
 import { FaTimes } from "react-icons/fa"
+import GithubContext from "../../context/GithubContext"
 
 const UserSearch = () => {
+  const [text, setText] = useState("")
+
+  const { searchUsers } = useContext(GithubContext)
+
+  const handleChange = (e) => setText(e.target.value)
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    if (text.trim().length === 0) {
+      return
+    } else {
+      searchUsers(text)
+
+      setText("")
+    }
+  }
+
   return (
     <div>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="relative flex mx-auto xl:w-3/4">
           <div className="flex input-left-side">
             <div className="p-2 bg-gray-200 rounded-s-md">
@@ -18,10 +38,14 @@ const UserSearch = () => {
             type="text"
             className="w-full p-2 outline-none rounded-e-md"
             placeholder="Github Username..."
+            value={text}
+            onChange={handleChange}
           />
-          <div className="absolute right-2 top-3">
-            <FaTimes className="text-gray-500" />
-          </div>
+          {text.trim().length > 0 && (
+            <div className="absolute cursor-pointer right-2 top-3">
+              <FaTimes className="text-gray-500" onClick={() => setText("")} />
+            </div>
+          )}
         </div>
       </form>
     </div>
