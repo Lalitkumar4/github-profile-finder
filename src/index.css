@@ -28,3 +28,14 @@ body {
     transform: rotate(1turn);
   }
 }
+
+@media (max-width: 435px) {
+  form .input-left-side {
+    display: none;
+  }
+
+  form input {
+    border-top-left-radius: 0.375rem;
+    border-bottom-left-radius: 0.375rem;
+  }
+}
