@@ -1,6 +1,12 @@
 import { useContext, useEffect } from "react"
-import { useParams } from "react-router-dom"
-import { FaLink, FaMapMarkerAlt, FaTwitter, FaBuilding } from "react-icons/fa"
+import { Link, useParams } from "react-router-dom"
+import {
+  FaLink,
+  FaMapMarkerAlt,
+  FaTwitter,
+  FaBuilding,
+  FaArrowLeft,
+} from "react-icons/fa"
 import Spinner from "../components/layout/Spinner"
 import GithubContext from "../context/GithubContext"
 
@@ -35,6 +41,11 @@ const User = () => {
 
   return (
     <div className="text-white rounded-xl p-8 bg-[#161B22]">
+      <div className="mb-4">
+        <Link to="/" className="text-white">
+          <FaArrowLeft />
+        </Link>
+      </div>
       <div className="grid lg:grid-cols-5 md:grid-cols-3">
         <div>
           <div className="wrapper">
