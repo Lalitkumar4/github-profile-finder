@@ -39,6 +39,9 @@ const User = () => {
     return <Spinner />
   }
 
+  // check for valid url to users website
+  const websiteURL = blog?.startsWith("http") ? blog : "https://" + blog
+
   return (
     <div className="text-white rounded-xl p-8 bg-[#161B22]">
       <div className="mb-4">
@@ -46,7 +49,7 @@ const User = () => {
           <FaArrowLeft />
         </Link>
       </div>
-      <div className="grid lg:grid-cols-5 md:grid-cols-3">
+      <div className="grid lg:grid-cols-5 md:grid-cols-4">
         <div>
           <div className="wrapper">
             <figure>
@@ -93,13 +96,13 @@ const User = () => {
               </div>
             )}
             {blog && (
-              <div className="flex items-center mt-2">
-                <FaLink className="mr-3 text-gray-400" />
+              <div className="flex items-center mt-2 ">
+                <FaLink className="mr-3 text-gray-400 shrink-0" />
                 <a
-                  href={`https://${blog}`}
+                  href={websiteURL}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-sm hover:text-blue-500 hover:underline"
+                  className="text-sm break-all hover:text-blue-500 hover:underline"
                 >
                   {blog}
                 </a>
