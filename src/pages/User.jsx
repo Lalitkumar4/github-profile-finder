@@ -11,14 +11,17 @@ import {
 } from "react-icons/fa"
 import Spinner from "../components/layout/Spinner"
 import GithubContext from "../context/GithubContext"
+import RepoSlider from "../components/repos/RepoSlider"
 
 const User = () => {
-  const { getUser, user, loading } = useContext(GithubContext)
+  const { getUser, user, loading, getUserRepos, repos } =
+    useContext(GithubContext)
 
   const params = useParams()
 
   useEffect(() => {
     getUser(params.login)
+    getUserRepos(params.login)
   }, [])
 
   const {
@@ -174,6 +177,7 @@ const User = () => {
                 <div className="font-semibold">{public_gists}</div>
               </div>
             </div>
+            <RepoSlider repos={repos} />
           </div>
         </div>
       </div>
