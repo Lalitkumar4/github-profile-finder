@@ -177,7 +177,9 @@ const User = () => {
                 <div className="font-semibold">{public_gists}</div>
               </div>
             </div>
-            <RepoSlider repos={repos} />
+            <div className="col-span-4">
+              <RepoSlider repos={repos} />
+            </div>
           </div>
         </div>
       </div>

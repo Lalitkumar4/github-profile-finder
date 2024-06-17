@@ -9,6 +9,12 @@ body {
   background-color: #0d1117;
 }
 
+.swiper-button-prev,
+.swiper-button-next {
+  color: white;
+  scale: 0.4;
+}
+
 .loader {
   width: 80px;
   margin: auto;
