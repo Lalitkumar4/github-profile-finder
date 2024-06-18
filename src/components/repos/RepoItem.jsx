@@ -16,7 +16,7 @@ const languageColors = {
   "C++": "#f34b7d",
 }
 
-const Slider = ({ repo }) => {
+const RepoItem = ({ repo }) => {
   const {
     name,
     description,
@@ -86,8 +86,8 @@ const Slider = ({ repo }) => {
   )
 }
 
-Slider.propTypes = {
+RepoItem.propTypes = {
   repo: PropTypes.object.isRequired,
 }
 
-export default Slider
+export default RepoItem

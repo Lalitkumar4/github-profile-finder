@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react"
 import GithubContext from "../../context/GithubContext"
 import { useParams } from "react-router-dom"
-import Slider from "./Slider"
+import RepoItem from "./RepoItem"
 import Spinner from "../layout/Spinner"
 
 const RepoList = () => {
@@ -20,7 +20,7 @@ const RepoList = () => {
   return (
     <div>
       {repos.map((repo) => (
-        <Slider key={repo.id} repo={repo} />
+        <RepoItem key={repo.id} repo={repo} />
       ))}
     </div>
   )

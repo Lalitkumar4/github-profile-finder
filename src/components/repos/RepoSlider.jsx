@@ -1,5 +1,5 @@
 import PropTypes from "prop-types"
-import Slider from "./Slider"
+import RepoItem from "./RepoItem"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules"
 
@@ -26,7 +26,7 @@ const RepoSlider = ({ repos }) => {
         >
           {repos.map((repo) => (
             <SwiperSlide key={repo.id}>
-              <Slider repo={repo} />
+              <RepoItem repo={repo} />
             </SwiperSlide>
           ))}
         </Swiper>
