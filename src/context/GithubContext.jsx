@@ -58,12 +58,12 @@ export const GithubProvider = ({ children }) => {
   }
 
   // Get user repos
-  const getUserRepos = async (login) => {
+  const getUserRepos = async (login, limit = null) => {
     setLoading()
 
     const params = new URLSearchParams({
       sort: "created",
-      per_page: 10,
+      per_page: limit,
     })
 
     const response = await fetch(
