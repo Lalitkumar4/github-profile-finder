@@ -130,24 +130,29 @@ const User = () => {
         </div>
         <div className="col-span-4 lg:col-span-4 md:col-span-3">
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4 sm:grid-cols-2">
-            <div className="flex bg-[#0D1117] rounded-xl p-3 hover:scale-105 transition-all">
-              <div className="p-3 mr-3 rounded-md bg-cyan-500">
-                <FaUserFriends className="text-xl" />
+            <Link to={`/user/${login}/followers`}>
+              <div className="flex bg-[#0D1117] rounded-xl p-3 hover:scale-105 transition-all">
+                <div className="p-3 mr-3 rounded-md bg-cyan-500">
+                  <FaUserFriends className="text-xl" />
+                </div>
+                <div>
+                  <div className="text-sm text-gray-400">Followers</div>
+                  <div className="font-semibold">{followers}</div>
+                </div>
               </div>
-              <div>
-                <div className="text-sm text-gray-400">Followers</div>
-                <div className="font-semibold">{followers}</div>
+            </Link>
+
+            <Link to={`/user/${login}/following`}>
+              <div className="flex bg-[#0D1117] rounded-xl p-3 hover:scale-105 transition-all">
+                <div className="p-3 mr-3 bg-green-300 rounded-md">
+                  <FaUserFriends className="text-xl" />
+                </div>
+                <div>
+                  <div className="text-sm text-gray-400">Following</div>
+                  <div className="font-semibold">{following}</div>
+                </div>
               </div>
-            </div>
-            <div className="flex bg-[#0D1117] rounded-xl p-3 hover:scale-105 transition-all">
-              <div className="p-3 mr-3 bg-green-300 rounded-md">
-                <FaUserFriends className="text-xl" />
-              </div>
-              <div>
-                <div className="text-sm text-gray-400">Following</div>
-                <div className="font-semibold">{following}</div>
-              </div>
-            </div>
+            </Link>
 
             <Link to={`/user/${login}/repos`}>
               <div className="flex bg-[#0D1117] rounded-xl p-3 hover:scale-105 transition-all">
@@ -171,15 +176,18 @@ const User = () => {
                 </div>
               </div>
             </Link>
-            <div className="flex bg-[rgb(13,17,23)] rounded-xl p-3 hover:scale-105 transition-all">
-              <div className="p-3 mr-3 bg-red-400 rounded-md">
-                <FaCode className="text-xl" />
+
+            <Link to={`/user/${login}/gists`}>
+              <div className="flex bg-[rgb(13,17,23)] rounded-xl p-3 hover:scale-105 transition-all">
+                <div className="p-3 mr-3 bg-red-400 rounded-md">
+                  <FaCode className="text-xl" />
+                </div>
+                <div>
+                  <div className="text-sm text-gray-400">Gists</div>
+                  <div className="font-semibold">{public_gists}</div>
+                </div>
               </div>
-              <div>
-                <div className="text-sm text-gray-400">Gists</div>
-                <div className="font-semibold">{public_gists}</div>
-              </div>
-            </div>
+            </Link>
           </div>
           <div className="col-span-4">
             <RepoSlider repos={repos} />

@@ -6,6 +6,9 @@ import Footer from "./components/layout/Footer"
 import NotFound from "./pages/NotFound"
 import { GithubProvider } from "./context/GithubContext"
 import RepoList from "./components/repos/RepoList"
+import Followers from "./components/followers/Followers"
+import Following from "./components/following/Following"
+import Gists from "./components/Gists/Gists"
 
 function App() {
   return (
@@ -22,6 +25,15 @@ function App() {
                   <Route path="/user/:login" element={<User />} />
                   <Route path="/user/:login/repos" element={<RepoList />} />
                   <Route path="/notfound" element={<NotFound />} />
+                  <Route
+                    path="/user/:login/followers"
+                    element={<Followers />}
+                  />
+                  <Route
+                    path="/user/:login/following"
+                    element={<Following />}
+                  />
+                  <Route path="/user/:login/gists" element={<Gists />} />
                   <Route path="/*" element={<NotFound />} />
                 </Routes>
               </main>
