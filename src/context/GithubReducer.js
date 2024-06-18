@@ -30,6 +30,12 @@ const githubReducer = (state, action) => {
         userFollowing: action.payload,
         loading: false,
       }
+    case "GET_GISTS":
+      return {
+        ...state,
+        gists: action.payload,
+        loading: false,
+      }
     case "SET_LOADING":
       return {
         ...state,

@@ -11,6 +11,7 @@ export const GithubProvider = ({ children }) => {
     repos: [],
     userFollowers: [],
     userFollowing: [],
+    gists: [],
     loading: false,
   }
 
@@ -97,7 +98,7 @@ export const GithubProvider = ({ children }) => {
     }
   }
 
-  // Get user followers
+  // Get user following
   const getUserFollowing = async (login) => {
     setLoading()
 
@@ -117,6 +118,26 @@ export const GithubProvider = ({ children }) => {
     }
   }
 
+  // Get gists
+  const getGists = async (login) => {
+    setLoading()
+
+    const response = await fetch(
+      `${import.meta.env.VITE_GITHUB_URL}/users/${login}/gists`
+    )
+
+    if (response.status === 404) {
+      window.location = "/notfound"
+    } else {
+      const data = await response.json()
+
+      dispatch({
+        type: "GET_GISTS",
+        payload: data,
+      })
+    }
+  }
+
   // Set loading
   const setLoading = () => dispatch({ type: "SET_LOADING" })
 
@@ -129,11 +150,13 @@ export const GithubProvider = ({ children }) => {
         repos: state.repos,
         userFollowers: state.userFollowers,
         userFollowing: state.userFollowing,
+        gists: state.gists,
         searchUsers,
         getUser,
         getUserRepos,
         getUserFollowers,
         getUserFollowing,
+        getGists,
       }}
     >
       {children}
