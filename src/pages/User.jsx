@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react"
-import { Link, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import {
   FaLink,
   FaMapMarkerAlt,
@@ -18,6 +18,7 @@ const User = () => {
     useContext(GithubContext)
 
   const params = useParams()
+  const navigate = useNavigate()
 
   useEffect(() => {
     getUser(params.login)
@@ -50,9 +51,9 @@ const User = () => {
   return (
     <div className="text-white rounded-xl p-8 bg-[#161B22]">
       <div className="mb-4">
-        <Link to="/" className="text-white">
+        <button onClick={() => navigate(-1)} className="text-white">
           <FaArrowLeft />
-        </Link>
+        </button>
       </div>
       <div className="grid grid-cols-2 md:gap-4 xl:gap-10 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-2">
         <div className="col-span-2 sm:col-span-2 lg:col-span-1 md:col-span-1">

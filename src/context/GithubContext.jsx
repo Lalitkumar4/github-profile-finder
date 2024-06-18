@@ -9,6 +9,7 @@ export const GithubProvider = ({ children }) => {
     users: [],
     user: {},
     repos: [],
+    userFollowers: [],
     loading: false,
   }
 
@@ -75,6 +76,26 @@ export const GithubProvider = ({ children }) => {
     })
   }
 
+  // Get user followers
+  const getUserFollowers = async (login) => {
+    setLoading()
+
+    const response = await fetch(
+      `${import.meta.env.VITE_GITHUB_URL}/users/${login}/followers`
+    )
+
+    if (response.status === 404) {
+      window.location = "/notfound"
+    } else {
+      const data = await response.json()
+
+      dispatch({
+        type: "GET_USER_FOLLOWERS",
+        payload: data,
+      })
+    }
+  }
+
   // Set loading
   const setLoading = () => dispatch({ type: "SET_LOADING" })
 
@@ -85,9 +106,11 @@ export const GithubProvider = ({ children }) => {
         loading: state.loading,
         user: state.user,
         repos: state.repos,
+        userFollowers: state.userFollowers,
         searchUsers,
         getUser,
         getUserRepos,
+        getUserFollowers,
       }}
     >
       {children}
