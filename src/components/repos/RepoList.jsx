@@ -1,15 +1,14 @@
 import { useContext, useEffect } from "react"
-import { useNavigate, useParams } from "react-router-dom"
-import { FaArrowLeft } from "react-icons/fa"
+import { useParams } from "react-router-dom"
 import RepoItem from "./RepoItem"
 import Spinner from "../layout/Spinner"
 import GithubContext from "../../context/GithubContext"
+import BackButton from "../layout/BackButton"
 
 const RepoList = () => {
   const { repos, getUserRepos, loading } = useContext(GithubContext)
 
   const params = useParams()
-  const navigate = useNavigate()
 
   useEffect(() => {
     getUserRepos(params.login)
@@ -23,9 +22,7 @@ const RepoList = () => {
   return (
     <>
       <div className="mb-4">
-        <button onClick={() => navigate(-1)} className="text-white">
-          <FaArrowLeft />
-        </button>
+        <BackButton />
       </div>
       <div>
         {repos.map((repo) => (
