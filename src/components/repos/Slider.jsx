@@ -35,7 +35,7 @@ const Slider = ({ repo }) => {
   }
 
   return (
-    <div className="p-4 bg-[#161B22] rounded-lg repo-card">
+    <div className="p-4 my-4 bg-[#161B22] rounded-lg repo-card">
       <a
         href={html_url}
         target="_blank"
