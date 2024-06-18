@@ -12,7 +12,7 @@ import RepoSlider from "../components/repos/RepoSlider"
 import Spinner from "../components/layout/Spinner"
 import GithubContext from "../context/GithubContext"
 import BackButton from "../components/layout/BackButton"
-import UserStates from "../components/layout/UserStates"
+import UserStats from "../components/layout/UserStats"
 
 const User = () => {
   const { getUser, user, loading, getUserRepos, repos } =
@@ -130,7 +130,7 @@ const User = () => {
         </div>
         <div className="col-span-4 lg:col-span-4 md:col-span-3">
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4 sm:grid-cols-2">
-            <UserStates
+            <UserStats
               to={`/user/${login}/followers`}
               icon={<FaUserFriends className="text-xl" />}
               bgColor="bg-cyan-500"
@@ -138,7 +138,7 @@ const User = () => {
               count={followers}
             />
 
-            <UserStates
+            <UserStats
               to={`/user/${login}/following`}
               icon={<FaUserFriends className="text-xl" />}
               bgColor="bg-green-300"
@@ -146,7 +146,7 @@ const User = () => {
               count={following}
             />
 
-            <UserStates
+            <UserStats
               to={`/user/${login}/repos`}
               icon={
                 <svg
@@ -167,7 +167,7 @@ const User = () => {
               count={public_repos}
             />
 
-            <UserStates
+            <UserStats
               to={`/user/${login}/gists`}
               icon={<FaCode className="text-xl" />}
               bgColor="bg-red-400 "

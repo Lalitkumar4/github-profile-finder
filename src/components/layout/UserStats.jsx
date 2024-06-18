@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import PropTypes from "prop-types"
 
-const UserStates = ({ to, icon, bgColor, label, count }) => {
+const UserStats = ({ to, icon, bgColor, label, count }) => {
   return (
     <>
       <Link to={to}>
@@ -17,7 +17,7 @@ const UserStates = ({ to, icon, bgColor, label, count }) => {
   )
 }
 
-UserStates.propTypes = {
+UserStats.propTypes = {
   to: PropTypes.string.isRequired,
   icon: PropTypes.element.isRequired,
   bgColor: PropTypes.string.isRequired,
@@ -25,4 +25,4 @@ UserStates.propTypes = {
   count: PropTypes.number.isRequired,
 }
 
-export default UserStates
+export default UserStats
