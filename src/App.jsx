@@ -5,6 +5,7 @@ import User from "./pages/User"
 import Footer from "./components/layout/Footer"
 import NotFound from "./pages/NotFound"
 import { GithubProvider } from "./context/GithubContext"
+import RepoList from "./components/repos/RepoList"
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/user/:login" element={<User />} />
+                  <Route path="/user/:login/repos" element={<RepoList />} />
                   <Route path="/notfound" element={<NotFound />} />
                   <Route path="/*" element={<NotFound />} />
                 </Routes>
