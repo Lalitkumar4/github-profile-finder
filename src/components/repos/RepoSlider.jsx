@@ -5,6 +5,7 @@ import RepoItem from "./RepoItem"
 
 import "swiper/css"
 import "swiper/css/navigation"
+import NoContentMsg from "../layout/NoContentMsg"
 
 const RepoSlider = ({ repos }) => {
   return (
@@ -24,11 +25,15 @@ const RepoSlider = ({ repos }) => {
           navigation
           scrollbar={{ draggable: true }}
         >
-          {repos.map((repo) => (
-            <SwiperSlide key={repo.id}>
-              <RepoItem repo={repo} />
-            </SwiperSlide>
-          ))}
+          {repos.length > 0 ? (
+            repos.map((repo) => (
+              <SwiperSlide key={repo.id}>
+                <RepoItem repo={repo} />
+              </SwiperSlide>
+            ))
+          ) : (
+            <NoContentMsg msg="doesn't have any public repositories yet." />
+          )}
         </Swiper>
       </div>
     </div>

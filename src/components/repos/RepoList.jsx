@@ -4,6 +4,7 @@ import RepoItem from "./RepoItem"
 import Spinner from "../layout/Spinner"
 import GithubContext from "../../context/GithubContext"
 import BackButton from "../layout/BackButton"
+import NoContentMsg from "../layout/NoContentMsg"
 
 const RepoList = () => {
   const { repos, getUserRepos, loading } = useContext(GithubContext)
@@ -25,9 +26,13 @@ const RepoList = () => {
         <BackButton />
       </div>
       <div>
-        {repos.map((repo) => (
-          <RepoItem key={repo.id} repo={repo} />
-        ))}
+        {repos.length > 0 ? (
+          repos.map((repo) => <RepoItem key={repo.id} repo={repo} />)
+        ) : (
+          <div className="text-center text-white">
+            <NoContentMsg msg="doesn’t have any public repositories yet." />
+          </div>
+        )}
       </div>
     </>
   )

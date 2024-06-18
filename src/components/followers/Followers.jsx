@@ -1,9 +1,11 @@
 import { useContext, useEffect } from "react"
 import { useParams } from "react-router-dom"
+import { FaUserFriends } from "react-icons/fa"
 import UserItem from "../users/UserItem"
 import Spinner from "../layout/Spinner"
 import GithubContext from "../../context/GithubContext"
 import BackButton from "../layout/BackButton"
+import NoContentMsg from "../layout/NoContentMsg"
 
 const Followers = () => {
   const { userFollowers, getUserFollowers, loading } = useContext(GithubContext)
@@ -25,9 +27,18 @@ const Followers = () => {
         <BackButton />
       </div>
       <div className="grid grid-cols-1 gap-8 text-white xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2">
-        {userFollowers.map((follower) => (
-          <UserItem key={follower.id} user={follower} />
-        ))}
+        {userFollowers.length > 0 ? (
+          userFollowers.map((follower) => (
+            <UserItem key={follower.id} user={follower} />
+          ))
+        ) : (
+          <div className="col-span-4">
+            <NoContentMsg
+              msg="doesn't have any followers yet."
+              icon={<FaUserFriends />}
+            />
+          </div>
+        )}
       </div>
     </>
   )
