@@ -54,8 +54,8 @@ const User = () => {
           <FaArrowLeft />
         </Link>
       </div>
-      <div className="grid gap-4 xl:gap-10 lg:grid-cols-5 md:grid-cols-4">
-        <div className="col-span-4 lg:col-span-1 md:col-span-1">
+      <div className="grid grid-cols-2 md:gap-4 xl:gap-10 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-2">
+        <div className="col-span-2 sm:col-span-2 lg:col-span-1 md:col-span-1">
           <div className="wrapper">
             <figure>
               <img
@@ -87,7 +87,7 @@ const User = () => {
             Visit Github Profile
           </a>
 
-          <div className="mt-7">
+          <div className="my-7">
             {company && (
               <div className="flex items-center">
                 <FaBuilding className="mr-3 text-gray-400" />
@@ -177,9 +177,9 @@ const User = () => {
                 <div className="font-semibold">{public_gists}</div>
               </div>
             </div>
-            <div className="col-span-4">
-              <RepoSlider repos={repos} />
-            </div>
+          </div>
+          <div className="col-span-4">
+            <RepoSlider repos={repos} />
           </div>
         </div>
       </div>
