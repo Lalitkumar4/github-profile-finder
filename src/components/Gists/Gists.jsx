@@ -1,9 +1,9 @@
 import { useContext, useEffect } from "react"
-import GithubContext from "../../context/GithubContext"
 import { useNavigate, useParams } from "react-router-dom"
-import Spinner from "../layout/Spinner"
-import Gist from "./Gist"
 import { FaArrowLeft } from "react-icons/fa"
+import Gist from "./Gist"
+import Spinner from "../layout/Spinner"
+import GithubContext from "../../context/GithubContext"
 
 const Gists = () => {
   const { gists, getGists, loading } = useContext(GithubContext)

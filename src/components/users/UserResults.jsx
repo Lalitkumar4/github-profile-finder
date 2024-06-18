@@ -1,6 +1,6 @@
 import { useContext } from "react"
-import Spinner from "../layout/Spinner"
 import UserItem from "./UserItem"
+import Spinner from "../layout/Spinner"
 import GithubContext from "../../context/GithubContext"
 
 const UserResults = () => {

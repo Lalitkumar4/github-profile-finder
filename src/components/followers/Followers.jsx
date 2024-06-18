@@ -1,9 +1,9 @@
 import { useContext, useEffect } from "react"
-import GithubContext from "../../context/GithubContext"
 import { useNavigate, useParams } from "react-router-dom"
+import { FaArrowLeft } from "react-icons/fa"
 import UserItem from "../users/UserItem"
 import Spinner from "../layout/Spinner"
-import { FaArrowLeft } from "react-icons/fa"
+import GithubContext from "../../context/GithubContext"
 
 const Followers = () => {
   const { userFollowers, getUserFollowers, loading } = useContext(GithubContext)

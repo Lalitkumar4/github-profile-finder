@@ -1,6 +1,5 @@
 import { useContext, useState } from "react"
-import { FaGithub } from "react-icons/fa"
-import { FaTimes } from "react-icons/fa"
+import { FaGithub, FaTimes } from "react-icons/fa"
 import GithubContext from "../../context/GithubContext"
 
 const UserSearch = () => {

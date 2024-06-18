@@ -9,9 +9,9 @@ import {
   FaUserFriends,
   FaCode,
 } from "react-icons/fa"
+import RepoSlider from "../components/repos/RepoSlider"
 import Spinner from "../components/layout/Spinner"
 import GithubContext from "../context/GithubContext"
-import RepoSlider from "../components/repos/RepoSlider"
 
 const User = () => {
   const { getUser, user, loading, getUserRepos, repos } =

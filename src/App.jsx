@@ -2,13 +2,13 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Navbar from "./components/layout/Navbar"
 import Home from "./pages/Home"
 import User from "./pages/User"
-import Footer from "./components/layout/Footer"
-import NotFound from "./pages/NotFound"
-import { GithubProvider } from "./context/GithubContext"
 import RepoList from "./components/repos/RepoList"
 import Followers from "./components/followers/Followers"
 import Following from "./components/following/Following"
 import Gists from "./components/Gists/Gists"
+import Footer from "./components/layout/Footer"
+import NotFound from "./pages/NotFound"
+import { GithubProvider } from "./context/GithubContext"
 
 function App() {
   return (

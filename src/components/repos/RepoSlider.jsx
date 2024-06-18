@@ -1,7 +1,7 @@
 import PropTypes from "prop-types"
-import RepoItem from "./RepoItem"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules"
+import RepoItem from "./RepoItem"
 
 import "swiper/css"
 import "swiper/css/navigation"
