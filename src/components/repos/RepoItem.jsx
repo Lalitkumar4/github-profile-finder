@@ -1,5 +1,6 @@
 import PropTypes from "prop-types"
 import { FaRegStar } from "react-icons/fa"
+import { format } from "date-fns"
 
 const languageColors = {
   JavaScript: "#f1e05a",
@@ -31,11 +32,11 @@ const RepoItem = ({ repo }) => {
   const languageColor = languageColors[language] || "#cccccc"
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString().split("/").join("-")
+    return format(dateString, "MMMM d, y")
   }
 
   return (
-    <div className="p-4 my-4 bg-[#161B22] rounded-lg repo-card">
+    <div className="p-4 my-4 bg-[#161B22] rounded-lg repo-card border border-gray-700">
       <a
         href={html_url}
         target="_blank"

@@ -130,7 +130,7 @@ const User = () => {
         </div>
         <div className="col-span-4 lg:col-span-4 md:col-span-3">
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4 sm:grid-cols-2">
-            <div className="flex bg-[#0D1117] rounded-xl p-3 ">
+            <div className="flex bg-[#0D1117] rounded-xl p-3 hover:scale-105 transition-all">
               <div className="p-3 mr-3 rounded-md bg-cyan-500">
                 <FaUserFriends className="text-xl" />
               </div>
@@ -139,7 +139,7 @@ const User = () => {
                 <div className="font-semibold">{followers}</div>
               </div>
             </div>
-            <div className="flex bg-[#0D1117] rounded-xl p-3">
+            <div className="flex bg-[#0D1117] rounded-xl p-3 hover:scale-105 transition-all">
               <div className="p-3 mr-3 bg-green-300 rounded-md">
                 <FaUserFriends className="text-xl" />
               </div>
@@ -150,7 +150,7 @@ const User = () => {
             </div>
 
             <Link to={`/user/${login}/repos`}>
-              <div className="flex bg-[#0D1117] rounded-xl p-3">
+              <div className="flex bg-[#0D1117] rounded-xl p-3 hover:scale-105 transition-all">
                 <div className="p-3 mr-3 bg-purple-400 rounded-md">
                   <svg
                     fill="#fff"
@@ -171,7 +171,7 @@ const User = () => {
                 </div>
               </div>
             </Link>
-            <div className="flex bg-[rgb(13,17,23)] rounded-xl p-3">
+            <div className="flex bg-[rgb(13,17,23)] rounded-xl p-3 hover:scale-105 transition-all">
               <div className="p-3 mr-3 bg-red-400 rounded-md">
                 <FaCode className="text-xl" />
               </div>
