@@ -22,7 +22,7 @@ UserStats.propTypes = {
   icon: PropTypes.element.isRequired,
   bgColor: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  count: PropTypes.number.isRequired,
+  count: PropTypes.number,
 }
 
 export default UserStats

@@ -20,6 +20,13 @@ const User = () => {
 
   const params = useParams()
 
+  const formatValue = (value) => {
+    if (value >= 1000) {
+      return (value / 1000).toFixed(1) + "k"
+    }
+    return value
+  }
+
   useEffect(() => {
     getUser(params.login)
     getUserRepos(params.login)
@@ -135,7 +142,7 @@ const User = () => {
               icon={<FaUserFriends className="text-xl" />}
               bgColor="bg-cyan-500"
               label="Followers"
-              count={followers}
+              count={formatValue(followers)}
             />
 
             <UserStats
@@ -143,7 +150,7 @@ const User = () => {
               icon={<FaUserFriends className="text-xl" />}
               bgColor="bg-green-300"
               label="Following"
-              count={following}
+              count={formatValue(following)}
             />
 
             <UserStats
@@ -164,7 +171,7 @@ const User = () => {
               }
               bgColor="bg-purple-400"
               label="Repositories"
-              count={public_repos}
+              count={formatValue(public_repos)}
             />
 
             <UserStats
@@ -172,7 +179,7 @@ const User = () => {
               icon={<FaCode className="text-xl" />}
               bgColor="bg-red-400 "
               label="Gists"
-              count={public_gists}
+              count={formatValue(public_gists)}
             />
           </div>
           <div className="col-span-4">
