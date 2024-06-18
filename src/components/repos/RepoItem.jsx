@@ -45,7 +45,7 @@ const RepoItem = ({ repo }) => {
         {name}
       </a>
       <p className="inline px-1 text-xs text-gray-300 border border-gray-400 rounded-full">
-        {visibility}
+        {visibility.charAt(0).toUpperCase() + visibility.slice(1)}
       </p>
       <p className="text-sm text-gray-400 max-h-fit">{description}</p>
       <div className="flex items-center gap-4 mt-2 text-sm text-gray-300">

@@ -1,8 +1,9 @@
 import { useContext, useEffect } from "react"
 import GithubContext from "../../context/GithubContext"
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import RepoItem from "./RepoItem"
 import Spinner from "../layout/Spinner"
+import { FaArrowLeft } from "react-icons/fa"
 
 const RepoList = () => {
   const { repos, getUserRepos, loading } = useContext(GithubContext)
@@ -18,11 +19,18 @@ const RepoList = () => {
   }
 
   return (
-    <div>
-      {repos.map((repo) => (
-        <RepoItem key={repo.id} repo={repo} />
-      ))}
-    </div>
+    <>
+      <div className="mb-4">
+        <Link to="/" className="text-white">
+          <FaArrowLeft />
+        </Link>
+      </div>
+      <div>
+        {repos.map((repo) => (
+          <RepoItem key={repo.id} repo={repo} />
+        ))}
+      </div>
+    </>
   )
 }
 
