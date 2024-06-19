@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
-import PropTypes from "prop-types"
 
+// eslint-disable-next-line react/prop-types
 const UserStats = ({ to, icon, bgColor, label, count }) => {
   return (
     <>
@@ -15,14 +15,6 @@ const UserStats = ({ to, icon, bgColor, label, count }) => {
       </Link>
     </>
   )
-}
-
-UserStats.propTypes = {
-  to: PropTypes.string.isRequired,
-  icon: PropTypes.element.isRequired,
-  bgColor: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  count: PropTypes.number,
 }
 
 export default UserStats

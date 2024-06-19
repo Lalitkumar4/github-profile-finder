@@ -20,13 +20,6 @@ const User = () => {
 
   const params = useParams()
 
-  const formatValue = (value) => {
-    if (value >= 1000) {
-      return (value / 1000).toFixed(1) + "k"
-    }
-    return value
-  }
-
   useEffect(() => {
     getUser(params.login)
     getUserRepos(params.login, 10)
@@ -55,6 +48,13 @@ const User = () => {
 
   // check for valid url to users website
   const websiteURL = blog?.startsWith("http") ? blog : "https://" + blog
+
+  const formatValue = (value) => {
+    if (value >= 1000) {
+      return (value / 1000).toFixed(1) + "k"
+    }
+    return value
+  }
 
   return (
     <div className="text-white rounded-xl p-8 bg-[#161B22]">
