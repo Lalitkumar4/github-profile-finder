@@ -31,9 +31,18 @@ export const GithubProvider = ({ children }) => {
 
     const { items } = await response.json()
 
+    // Fetching info for each user
+    const userInfo = await Promise.all(
+      items.map(async (user) => {
+        const response = await fetch(user.url)
+        const data = await response.json()
+        return data
+      })
+    )
+
     dispatch({
       type: "GET_USERS",
-      payload: items,
+      payload: userInfo,
     })
   }
 
