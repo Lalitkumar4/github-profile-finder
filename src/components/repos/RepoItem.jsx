@@ -74,7 +74,7 @@ const RepoItem = ({ repo }) => {
           <FaCodeBranch />
           <p>{formatValue(forks)}</p>
         </div>
-        <div className="flex items-center date">
+        <div className="flex items-center repo-date">
           <p>Updated on {formatDate(updated_at)}</p>
         </div>
       </div>
