@@ -26,7 +26,12 @@ export const GithubProvider = ({ children }) => {
     })
 
     const response = await fetch(
-      `${import.meta.env.VITE_GITHUB_URL}/search/users?${params}`
+      `${import.meta.env.VITE_GITHUB_URL}/search/users?${params}`,
+      {
+        headers: {
+          Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
+        },
+      }
     )
 
     const { items } = await response.json()
@@ -34,7 +39,11 @@ export const GithubProvider = ({ children }) => {
     // Fetching info for each user
     const userInfo = await Promise.all(
       items.map(async (user) => {
-        const response = await fetch(user.url)
+        const response = await fetch(user.url, {
+          headers: {
+            Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
+          },
+        })
         const data = await response.json()
         return data
       })
@@ -51,7 +60,12 @@ export const GithubProvider = ({ children }) => {
     setLoading()
 
     const response = await fetch(
-      `${import.meta.env.VITE_GITHUB_URL}/users/${login}`
+      `${import.meta.env.VITE_GITHUB_URL}/users/${login}`,
+      {
+        headers: {
+          Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
+        },
+      }
     )
 
     if (response.status === 404) {
@@ -76,7 +90,12 @@ export const GithubProvider = ({ children }) => {
     })
 
     const response = await fetch(
-      `${import.meta.env.VITE_GITHUB_URL}/users/${login}/repos?${params}`
+      `${import.meta.env.VITE_GITHUB_URL}/users/${login}/repos?${params}`,
+      {
+        headers: {
+          Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
+        },
+      }
     )
 
     const data = await response.json()
@@ -92,7 +111,12 @@ export const GithubProvider = ({ children }) => {
     setLoading()
 
     const response = await fetch(
-      `${import.meta.env.VITE_GITHUB_URL}/users/${login}/followers`
+      `${import.meta.env.VITE_GITHUB_URL}/users/${login}/followers`,
+      {
+        headers: {
+          Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
+        },
+      }
     )
 
     if (response.status === 404) {
@@ -100,9 +124,22 @@ export const GithubProvider = ({ children }) => {
     } else {
       const data = await response.json()
 
+      // Fetching info for each user
+      const userFollowerInfo = await Promise.all(
+        data.map(async (userFollower) => {
+          const response = await fetch(userFollower.url, {
+            headers: {
+              Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
+            },
+          })
+          const data = await response.json()
+          return data
+        })
+      )
+
       dispatch({
         type: "GET_USER_FOLLOWERS",
-        payload: data,
+        payload: userFollowerInfo,
       })
     }
   }
@@ -112,7 +149,12 @@ export const GithubProvider = ({ children }) => {
     setLoading()
 
     const response = await fetch(
-      `${import.meta.env.VITE_GITHUB_URL}/users/${login}/following`
+      `${import.meta.env.VITE_GITHUB_URL}/users/${login}/following`,
+      {
+        headers: {
+          Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
+        },
+      }
     )
 
     if (response.status === 404) {
@@ -132,7 +174,12 @@ export const GithubProvider = ({ children }) => {
     setLoading()
 
     const response = await fetch(
-      `${import.meta.env.VITE_GITHUB_URL}/users/${login}/gists`
+      `${import.meta.env.VITE_GITHUB_URL}/users/${login}/gists`,
+      {
+        headers: {
+          Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
+        },
+      }
     )
 
     if (response.status === 404) {
