@@ -162,9 +162,22 @@ export const GithubProvider = ({ children }) => {
     } else {
       const data = await response.json()
 
+      // Fetching info for each user
+      const userFollowingInfo = await Promise.all(
+        data.map(async (userFollowing) => {
+          const response = await fetch(userFollowing.url, {
+            headers: {
+              Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
+            },
+          })
+          const data = await response.json()
+          return data
+        })
+      )
+
       dispatch({
         type: "GET_USER_FOLLOWING",
-        payload: data,
+        payload: userFollowingInfo,
       })
     }
   }
