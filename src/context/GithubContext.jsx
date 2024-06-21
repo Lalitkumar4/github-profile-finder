@@ -13,6 +13,7 @@ export const GithubProvider = ({ children }) => {
     userFollowing: [],
     gists: [],
     loading: false,
+    searched: true,
   }
 
   const [state, dispatch] = useReducer(githubReducer, initialState)
@@ -53,6 +54,8 @@ export const GithubProvider = ({ children }) => {
       type: "GET_USERS",
       payload: userInfo,
     })
+
+    dispatch({ type: "SET_SEARCHED" })
   }
 
   // Get single user
@@ -220,6 +223,7 @@ export const GithubProvider = ({ children }) => {
         userFollowers: state.userFollowers,
         userFollowing: state.userFollowing,
         gists: state.gists,
+        searched: state.searched,
         searchUsers,
         getUser,
         getUserRepos,

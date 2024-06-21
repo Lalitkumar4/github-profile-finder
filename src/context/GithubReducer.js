@@ -41,6 +41,11 @@ const githubReducer = (state, action) => {
         ...state,
         loading: true,
       }
+    case "SET_SEARCHED":
+      return {
+        ...state,
+        searched: false,
+      }
     default:
       return state
   }
