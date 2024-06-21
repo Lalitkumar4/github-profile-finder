@@ -1,9 +1,9 @@
 import { useContext } from "react"
 import UserItem from "./UserItem"
 import GithubImg from "../layout/GithubImg"
+import SearchNotFind from "../layout/SearchNotFind"
 import Spinner from "../layout/Spinner"
 import GithubContext from "../../context/GithubContext"
-import SearchNotFind from "../layout/SearchNotFind"
 
 const UserResults = () => {
   const { users, loading, searched } = useContext(GithubContext)
@@ -16,7 +16,7 @@ const UserResults = () => {
             <SearchNotFind />
           </div>
         ) : !loading && users.length === 0 && searched ? (
-          <div className="col-span-3 m-auto">
+          <div className="col-span-3 mx-auto mt-5">
             <GithubImg />
           </div>
         ) : (
