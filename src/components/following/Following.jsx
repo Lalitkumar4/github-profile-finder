@@ -27,17 +27,17 @@ const Following = () => {
         <BackButton />
       </div>
       <div className="grid grid-cols-1 gap-8 text-white xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2">
-        {userFollowing.length > 0 ? (
-          userFollowing.map((following) => (
-            <UserItem key={following.id} user={following} />
-          ))
-        ) : (
+        {!loading && userFollowing.length === 0 ? (
           <div className="col-span-4">
             <NoContentMsg
               msg="isn't following anybody."
               icon={<FaUserFriends />}
             />
           </div>
+        ) : (
+          userFollowing.map((following) => (
+            <UserItem key={following.id} user={following} />
+          ))
         )}
       </div>
     </>

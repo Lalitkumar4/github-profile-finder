@@ -25,14 +25,14 @@ const RepoSlider = ({ repos }) => {
           navigation
           scrollbar={{ draggable: true }}
         >
-          {repos.length > 0 ? (
+          {repos.length === 0 ? (
+            <NoContentMsg msg="doesn't have any public repositories yet." />
+          ) : (
             repos.map((repo) => (
               <SwiperSlide key={repo.id}>
                 <RepoItem repo={repo} />
               </SwiperSlide>
             ))
-          ) : (
-            <NoContentMsg msg="doesn't have any public repositories yet." />
           )}
         </Swiper>
       </div>

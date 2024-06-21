@@ -26,12 +26,12 @@ const RepoList = () => {
         <BackButton />
       </div>
       <div>
-        {repos.length > 0 ? (
-          repos.map((repo) => <RepoItem key={repo.id} repo={repo} />)
-        ) : (
+        {!loading && repos.length === 0 ? (
           <div className="text-center text-white">
             <NoContentMsg msg="doesn’t have any public repositories yet." />
           </div>
+        ) : (
+          repos.map((repo) => <RepoItem key={repo.id} repo={repo} />)
         )}
       </div>
     </>
