@@ -27,7 +27,7 @@ const Followers = () => {
       <div className="mb-4">
         <BackButton />
       </div>
-      <div className="grid grid-cols-1 gap-8 text-white xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-8 text-white xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2">
         {/* No content message */}
         {!loading && userFollowers.length === 0 ? (
           <div className="col-span-4">
