@@ -22,7 +22,7 @@ const UserSearch = () => {
   }
 
   return (
-    <div>
+    <div className="sticky top-0 z-10 pt-4">
       <form onSubmit={handleSubmit}>
         <div className="relative flex mx-auto xl:w-3/4">
           <div className="flex input-left-side">
@@ -37,6 +37,7 @@ const UserSearch = () => {
             type="text"
             className="w-full p-2 outline-none rounded-e-md"
             placeholder="Github Username..."
+            autoFocus
             value={text}
             onChange={handleChange}
           />
