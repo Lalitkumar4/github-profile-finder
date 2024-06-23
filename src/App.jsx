@@ -16,9 +16,11 @@ function App() {
       <BrowserRouter>
         <div>
           <div className="flex flex-col h-screen">
+            {/* Navbar */}
             <Navbar />
 
             <div className="flex flex-col justify-between h-screen">
+              {/* Main container */}
               <main className="container px-3 pb-12 mx-auto">
                 <Routes>
                   <Route path="/" element={<Home />} />
@@ -38,6 +40,7 @@ function App() {
                 </Routes>
               </main>
 
+              {/* Footer */}
               <Footer />
             </div>
           </div>

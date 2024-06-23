@@ -10,16 +10,20 @@ const UserResults = () => {
 
   if (!loading) {
     return (
+      // Users Grid layout
       <div className="grid grid-cols-1 gap-8 mt-16 text-white xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2">
+        {/* Search not find message */}
         {!loading && users.length === 0 && !searched ? (
           <div className="col-span-3 m-auto text-center">
             <SearchNotFind />
           </div>
         ) : !loading && users.length === 0 && searched ? (
+          // Github image
           <div className="col-span-3 mx-auto mt-5">
             <GithubImg />
           </div>
         ) : (
+          // User item
           users.map((user) => <UserItem key={user.id} user={user} />)
         )}
       </div>

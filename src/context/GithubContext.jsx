@@ -38,7 +38,7 @@ export const GithubProvider = ({ children }) => {
 
       const { items } = await response.json()
 
-      // Fetching info for each user
+      // Fetching more details for each user
       const userInfo = await Promise.all(
         items.map(async (user) => {
           const response = await fetch(user.url, {
@@ -150,7 +150,7 @@ export const GithubProvider = ({ children }) => {
       } else {
         const data = await response.json()
 
-        // Fetching info for each user
+        // Fetching more details for each user followers
         const userFollowerInfo = await Promise.all(
           data.map(async (userFollower) => {
             const response = await fetch(userFollower.url, {
@@ -194,7 +194,7 @@ export const GithubProvider = ({ children }) => {
       } else {
         const data = await response.json()
 
-        // Fetching info for each user
+        // Fetching more details for each user following
         const userFollowingInfo = await Promise.all(
           data.map(async (userFollowing) => {
             const response = await fetch(userFollowing.url, {

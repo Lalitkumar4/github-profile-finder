@@ -9,12 +9,14 @@ body {
   background-color: #0d1117;
 }
 
+/* Swiper buttons */
 .swiper-button-prev,
 .swiper-button-next {
   color: white;
   scale: 0.4;
 }
 
+/* Loader */
 .loader {
   width: 80px;
   margin: auto;
@@ -35,6 +37,7 @@ body {
   }
 }
 
+/* Media Querys */
 @media (max-width: 435px) {
   form .input-left-side {
     display: none;

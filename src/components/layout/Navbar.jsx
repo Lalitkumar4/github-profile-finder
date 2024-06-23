@@ -1,5 +1,5 @@
-import { FaGithub } from "react-icons/fa"
 import PropTypes from "prop-types"
+import { FaGithub } from "react-icons/fa"
 
 const Navbar = ({ title = "Github Profile Finder" }) => {
   return (

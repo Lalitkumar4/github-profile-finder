@@ -10,9 +10,9 @@ import {
 } from "react-icons/fa"
 import RepoSlider from "../components/repos/RepoSlider"
 import Spinner from "../components/layout/Spinner"
-import GithubContext from "../context/GithubContext"
 import BackButton from "../components/layout/BackButton"
 import UserStats from "../components/layout/UserStats"
+import GithubContext from "../context/GithubContext"
 
 const User = () => {
   const { getUser, user, loading, getUserRepos, repos } =
@@ -22,7 +22,7 @@ const User = () => {
 
   useEffect(() => {
     getUser(params.login)
-    getUserRepos(params.login, 10)
+    getUserRepos(params.login, 10) // limit 10 for slider
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -42,6 +42,7 @@ const User = () => {
     public_gists,
   } = user
 
+  // Spinner
   if (loading) {
     return <Spinner />
   }
@@ -49,6 +50,7 @@ const User = () => {
   // check for valid url to users website
   const websiteURL = blog?.startsWith("http") ? blog : "https://" + blog
 
+  // Add k if value is above 1000
   const formatValue = (value) => {
     if (value >= 1000) {
       return (value / 1000).toFixed(1) + "k"
@@ -57,13 +59,19 @@ const User = () => {
   }
 
   return (
+    // User div
     <div className="text-white rounded-xl p-8 bg-[#161B22]">
+      {/* Back button */}
       <div className="mb-4">
         <BackButton />
       </div>
+      {/* User grid layout */}
       <div className="grid grid-cols-2 md:gap-4 xl:gap-10 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-2">
+        {/* Columns */}
         <div className="col-span-2 sm:col-span-2 lg:col-span-1 md:col-span-1">
+          {/* Sidebar */}
           <div className="wrapper">
+            {/* Profile Image */}
             <figure>
               <img
                 src={avatar_url}
@@ -71,6 +79,8 @@ const User = () => {
                 className="object-cover w-full h-full rounded-3xl"
               />
             </figure>
+
+            {/* Name and username */}
             <div className="mt-8">
               <h1 className="mb-0 text-2xl font-medium text-white">{name}</h1>
               <p className="flex-grow-0 text-lg font-thin text-gray-400">
@@ -79,12 +89,14 @@ const User = () => {
             </div>
           </div>
 
+          {/* User bio */}
           {bio && (
             <div className="mt-4">
               <p>{bio}</p>
             </div>
           )}
 
+          {/* Visit github profile link button */}
           <a
             href={html_url}
             target="_blank"
@@ -95,18 +107,23 @@ const User = () => {
           </a>
 
           <div className="my-7">
+            {/* User company */}
             {company && (
               <div className="flex items-center">
                 <FaBuilding className="mr-3 text-gray-400" />
                 <p className="text-sm">{company}</p>
               </div>
             )}
+
+            {/* User location */}
             {location && (
               <div className="flex items-center mt-2">
                 <FaMapMarkerAlt className="mr-3 text-gray-400" />
                 <p className="text-sm">{location}</p>
               </div>
             )}
+
+            {/* User blog link */}
             {blog && (
               <div className="flex items-center mt-2">
                 <FaLink className="mr-3 text-gray-400 shrink-0" />
@@ -120,6 +137,8 @@ const User = () => {
                 </a>
               </div>
             )}
+
+            {/* User twitter handle */}
             {twitter_username && (
               <div className="flex items-center mt-2">
                 <FaTwitter className="mr-3 text-gray-400" />
@@ -135,8 +154,12 @@ const User = () => {
             )}
           </div>
         </div>
+
+        {/* Right sidebar */}
         <div className="col-span-4 lg:col-span-4 md:col-span-3">
+          {/* Columns */}
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4 sm:grid-cols-2">
+            {/* User Stats for followers */}
             <UserStats
               to={`/user/${login}/followers`}
               icon={<FaUserFriends className="text-xl" />}
@@ -145,6 +168,7 @@ const User = () => {
               count={formatValue(followers)}
             />
 
+            {/* User Stats for following */}
             <UserStats
               to={`/user/${login}/following`}
               icon={<FaUserFriends className="text-xl" />}
@@ -153,6 +177,7 @@ const User = () => {
               count={formatValue(following)}
             />
 
+            {/* User Stats for repos */}
             <UserStats
               to={`/user/${login}/repos`}
               icon={
@@ -174,6 +199,7 @@ const User = () => {
               count={formatValue(public_repos)}
             />
 
+            {/* User Stats for gists */}
             <UserStats
               to={`/user/${login}/gists`}
               icon={<FaCode className="text-xl" />}
@@ -182,6 +208,8 @@ const User = () => {
               count={formatValue(public_gists)}
             />
           </div>
+
+          {/* Repo slider */}
           <div className="col-span-4">
             <RepoSlider repos={repos} />
           </div>

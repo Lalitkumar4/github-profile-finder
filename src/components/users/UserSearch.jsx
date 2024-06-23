@@ -7,8 +7,10 @@ const UserSearch = () => {
 
   const { searchUsers } = useContext(GithubContext)
 
+  // Handle change
   const handleChange = (e) => setText(e.target.value)
 
+  // Handle submit
   const handleSubmit = (e) => {
     e.preventDefault()
 
@@ -22,9 +24,11 @@ const UserSearch = () => {
   }
 
   return (
+    // Search form
     <div className="sticky top-0 z-10 pt-4">
       <form onSubmit={handleSubmit}>
         <div className="relative flex mx-auto xl:w-3/4">
+          {/* Left side */}
           <div className="flex input-left-side">
             <div className="p-2 bg-gray-200 rounded-s-md">
               <FaGithub className="text-2xl text-gray-600" />
@@ -33,6 +37,7 @@ const UserSearch = () => {
               Username
             </p>
           </div>
+          {/* Input field */}
           <input
             type="text"
             className="w-full p-2 outline-none rounded-e-md"
@@ -41,6 +46,7 @@ const UserSearch = () => {
             value={text}
             onChange={handleChange}
           />
+          {/* x button */}
           {text.trim().length > 0 && (
             <div className="absolute cursor-pointer right-2 top-3">
               <FaTimes className="text-gray-500" onClick={() => setText("")} />
