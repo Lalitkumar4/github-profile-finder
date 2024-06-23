@@ -7,7 +7,7 @@ const Gist = ({ gist }) => {
   }
 
   return (
-    <div className="p-4 bg-[#161B22] rounded-lg repo-card border border-gray-700">
+    <div className="p-4 bg-[#161B22] rounded-lg repo-card border border-gray-700 break-all">
       <a
         href={gist.html_url}
         target="_blank"

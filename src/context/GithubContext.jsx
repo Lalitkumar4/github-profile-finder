@@ -20,198 +20,235 @@ export const GithubProvider = ({ children }) => {
 
   // Get search results
   const searchUsers = async (text) => {
-    setLoading()
+    dispatch({ type: "SET_LOADING", payload: true })
 
-    const params = new URLSearchParams({
-      q: text,
-    })
+    try {
+      const params = new URLSearchParams({
+        q: text,
+      })
 
-    const response = await fetch(
-      `${import.meta.env.VITE_GITHUB_URL}/search/users?${params}`,
-      {
-        headers: {
-          Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
-        },
-      }
-    )
-
-    const { items } = await response.json()
-
-    // Fetching info for each user
-    const userInfo = await Promise.all(
-      items.map(async (user) => {
-        const response = await fetch(user.url, {
+      const response = await fetch(
+        `${import.meta.env.VITE_GITHUB_URL}/search/users?${params}`,
+        {
           headers: {
             Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
           },
+        }
+      )
+
+      const { items } = await response.json()
+
+      // Fetching info for each user
+      const userInfo = await Promise.all(
+        items.map(async (user) => {
+          const response = await fetch(user.url, {
+            headers: {
+              Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
+            },
+          })
+          const data = await response.json()
+          return data
         })
-        const data = await response.json()
-        return data
+      )
+
+      dispatch({
+        type: "GET_USERS",
+        payload: userInfo,
       })
-    )
 
-    dispatch({
-      type: "GET_USERS",
-      payload: userInfo,
-    })
-
-    dispatch({ type: "SET_SEARCHED" })
+      dispatch({ type: "SET_SEARCHED" })
+    } catch (error) {
+      console.log(error)
+    } finally {
+      dispatch({ type: "SET_LOADING", payload: false })
+    }
   }
 
   // Get single user
   const getUser = async (login) => {
-    setLoading()
+    dispatch({ type: "SET_LOADING", payload: true })
 
-    const response = await fetch(
-      `${import.meta.env.VITE_GITHUB_URL}/users/${login}`,
-      {
-        headers: {
-          Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
-        },
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_GITHUB_URL}/users/${login}`,
+        {
+          headers: {
+            Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
+          },
+        }
+      )
+
+      if (response.status === 404) {
+        window.location = "/notfound"
+      } else {
+        const data = await response.json()
+
+        dispatch({
+          type: "GET_USER",
+          payload: data,
+        })
       }
-    )
-
-    if (response.status === 404) {
-      window.location = "/notfound"
-    } else {
-      const data = await response.json()
-
-      dispatch({
-        type: "GET_USER",
-        payload: data,
-      })
+    } catch (error) {
+      console.log(error)
+    } finally {
+      dispatch({ type: "SET_LOADING", payload: false })
     }
   }
 
   // Get user repos
   const getUserRepos = async (login, limit = null) => {
-    setLoading()
+    dispatch({ type: "SET_LOADING", payload: true })
 
-    const params = new URLSearchParams({
-      sort: "created",
-      per_page: limit,
-    })
+    try {
+      const params = new URLSearchParams({
+        sort: "created",
+        per_page: limit,
+      })
 
-    const response = await fetch(
-      `${import.meta.env.VITE_GITHUB_URL}/users/${login}/repos?${params}`,
-      {
-        headers: {
-          Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
-        },
+      const response = await fetch(
+        `${import.meta.env.VITE_GITHUB_URL}/users/${login}/repos?${params}`,
+        {
+          headers: {
+            Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
+          },
+        }
+      )
+
+      if (response.status === 404) {
+        window.location = "/notfound"
+      } else {
+        const data = await response.json()
+
+        dispatch({
+          type: "GET_REPOS",
+          payload: data,
+        })
       }
-    )
-
-    const data = await response.json()
-
-    dispatch({
-      type: "GET_REPOS",
-      payload: data,
-    })
+    } catch (error) {
+      console.log(error)
+    } finally {
+      dispatch({ type: "SET_LOADING", payload: false })
+    }
   }
 
   // Get user followers
   const getUserFollowers = async (login) => {
-    setLoading()
+    dispatch({ type: "SET_LOADING", payload: true })
 
-    const response = await fetch(
-      `${import.meta.env.VITE_GITHUB_URL}/users/${login}/followers`,
-      {
-        headers: {
-          Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
-        },
-      }
-    )
-
-    if (response.status === 404) {
-      window.location = "/notfound"
-    } else {
-      const data = await response.json()
-
-      // Fetching info for each user
-      const userFollowerInfo = await Promise.all(
-        data.map(async (userFollower) => {
-          const response = await fetch(userFollower.url, {
-            headers: {
-              Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
-            },
-          })
-          const data = await response.json()
-          return data
-        })
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_GITHUB_URL}/users/${login}/followers`,
+        {
+          headers: {
+            Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
+          },
+        }
       )
 
-      dispatch({
-        type: "GET_USER_FOLLOWERS",
-        payload: userFollowerInfo,
-      })
+      if (response.status === 404) {
+        window.location = "/notfound"
+      } else {
+        const data = await response.json()
+
+        // Fetching info for each user
+        const userFollowerInfo = await Promise.all(
+          data.map(async (userFollower) => {
+            const response = await fetch(userFollower.url, {
+              headers: {
+                Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
+              },
+            })
+            const data = await response.json()
+            return data
+          })
+        )
+
+        dispatch({
+          type: "GET_USER_FOLLOWERS",
+          payload: userFollowerInfo,
+        })
+      }
+    } catch (error) {
+      console.groupEnd(error)
+    } finally {
+      dispatch({ type: "SET_LOADING", payload: false })
     }
   }
 
   // Get user following
   const getUserFollowing = async (login) => {
-    setLoading()
+    dispatch({ type: "SET_LOADING", payload: true })
 
-    const response = await fetch(
-      `${import.meta.env.VITE_GITHUB_URL}/users/${login}/following`,
-      {
-        headers: {
-          Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
-        },
-      }
-    )
-
-    if (response.status === 404) {
-      window.location = "/notfound"
-    } else {
-      const data = await response.json()
-
-      // Fetching info for each user
-      const userFollowingInfo = await Promise.all(
-        data.map(async (userFollowing) => {
-          const response = await fetch(userFollowing.url, {
-            headers: {
-              Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
-            },
-          })
-          const data = await response.json()
-          return data
-        })
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_GITHUB_URL}/users/${login}/following`,
+        {
+          headers: {
+            Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
+          },
+        }
       )
 
-      dispatch({
-        type: "GET_USER_FOLLOWING",
-        payload: userFollowingInfo,
-      })
+      if (response.status === 404) {
+        window.location = "/notfound"
+      } else {
+        const data = await response.json()
+
+        // Fetching info for each user
+        const userFollowingInfo = await Promise.all(
+          data.map(async (userFollowing) => {
+            const response = await fetch(userFollowing.url, {
+              headers: {
+                Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
+              },
+            })
+            const data = await response.json()
+            return data
+          })
+        )
+
+        dispatch({
+          type: "GET_USER_FOLLOWING",
+          payload: userFollowingInfo,
+        })
+      }
+    } catch (error) {
+      console.log(error)
+    } finally {
+      dispatch({ type: "SET_LOADING", payload: false })
     }
   }
 
   // Get gists
   const getGists = async (login) => {
-    setLoading()
+    dispatch({ type: "SET_LOADING", payload: true })
 
-    const response = await fetch(
-      `${import.meta.env.VITE_GITHUB_URL}/users/${login}/gists`,
-      {
-        headers: {
-          Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
-        },
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_GITHUB_URL}/users/${login}/gists`,
+        {
+          headers: {
+            Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
+          },
+        }
+      )
+
+      if (response.status === 404) {
+        window.location = "/notfound"
+      } else {
+        const data = await response.json()
+
+        dispatch({
+          type: "GET_GISTS",
+          payload: data,
+        })
       }
-    )
-
-    if (response.status === 404) {
-      window.location = "/notfound"
-    } else {
-      const data = await response.json()
-
-      dispatch({
-        type: "GET_GISTS",
-        payload: data,
-      })
+    } catch (error) {
+      console.log(error)
+    } finally {
+      dispatch({ type: "SET_LOADING", payload: false })
     }
   }
-
-  // Set loading
-  const setLoading = () => dispatch({ type: "SET_LOADING" })
 
   return (
     <GithubContext.Provider
