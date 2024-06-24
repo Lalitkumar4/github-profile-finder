@@ -6,6 +6,7 @@ const GithubContext = createContext()
 // eslint-disable-next-line react/prop-types
 export const GithubProvider = ({ children }) => {
   const initialState = {
+    searchTerm: "",
     users: [],
     user: {},
     repos: [],
@@ -14,17 +15,21 @@ export const GithubProvider = ({ children }) => {
     gists: [],
     loading: false,
     searched: true,
+    currentPage: 1,
+    totalPages: 0,
   }
 
   const [state, dispatch] = useReducer(githubReducer, initialState)
 
   // Get search results
-  const searchUsers = async (text) => {
+  const searchUsers = async (text, page = 1, perPage = 30) => {
     dispatch({ type: "SET_LOADING", payload: true })
 
     try {
       const params = new URLSearchParams({
         q: text,
+        page,
+        per_page: perPage,
       })
 
       const response = await fetch(
@@ -36,7 +41,9 @@ export const GithubProvider = ({ children }) => {
         }
       )
 
-      const { items } = await response.json()
+      const { items, total_count } = await response.json()
+
+      const totalPages = Math.ceil(total_count / perPage)
 
       // Fetching more details for each user
       const userInfo = await Promise.all(
@@ -55,6 +62,14 @@ export const GithubProvider = ({ children }) => {
         type: "GET_USERS",
         payload: userInfo,
       })
+
+      // Set search term for pagination
+      dispatch({ type: "SET_SEARCH_TERM", payload: text })
+
+      // Current page
+      dispatch({ type: "SET_CURRENT_PAGE", payload: page })
+      // Total pages
+      dispatch({ type: "SET_TOTAL_PAGES", payload: totalPages })
 
       dispatch({ type: "SET_SEARCHED" })
     } catch (error) {
@@ -261,6 +276,9 @@ export const GithubProvider = ({ children }) => {
         userFollowing: state.userFollowing,
         gists: state.gists,
         searched: state.searched,
+        currentPage: state.currentPage,
+        totalPages: state.totalPages,
+        searchTerm: state.searchTerm,
         searchUsers,
         getUser,
         getUserRepos,

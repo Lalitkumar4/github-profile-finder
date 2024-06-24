@@ -4,6 +4,7 @@ import GithubImg from "../layout/GithubImg"
 import SearchNotFind from "../layout/SearchNotFind"
 import Spinner from "../layout/Spinner"
 import GithubContext from "../../context/GithubContext"
+import PaginationButtons from "../layout/PaginationButtons"
 
 const UserResults = () => {
   const { users, loading, searched } = useContext(GithubContext)
@@ -23,8 +24,19 @@ const UserResults = () => {
             <GithubImg />
           </div>
         ) : (
-          // User item
-          users.map((user) => <UserItem key={user.id} user={user} />)
+          <>
+            {/* User item */}
+            {users.map((user) => (
+              <UserItem key={user.id} user={user} />
+            ))}
+
+            {/* Paginate buttons  */}
+            {users.length >= 30 && (
+              <div className="col-span-full">
+                <PaginationButtons />
+              </div>
+            )}
+          </>
         )}
       </div>
     )

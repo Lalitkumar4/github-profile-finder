@@ -40,6 +40,21 @@ const githubReducer = (state, action) => {
         ...state,
         searched: false,
       }
+    case "SET_CURRENT_PAGE":
+      return {
+        ...state,
+        currentPage: action.payload,
+      }
+    case "SET_TOTAL_PAGES":
+      return {
+        ...state,
+        totalPages: action.payload,
+      }
+    case "SET_SEARCH_TERM":
+      return {
+        ...state,
+        searchTerm: action.payload,
+      }
     default:
       return state
   }
