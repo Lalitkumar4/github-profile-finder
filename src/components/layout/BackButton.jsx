@@ -10,7 +10,7 @@ const BackButton = ({ type }) => {
 
   const navigate = useNavigate()
 
-  const back = () => {
+  const handleBackButton = () => {
     // Back when followers page is above 1
     if (currentPage > 1) {
       const decreaseCurrentPage = currentPage - 1
@@ -26,7 +26,7 @@ const BackButton = ({ type }) => {
   }
 
   return (
-    <button onClick={() => back()} className="text-white">
+    <button onClick={() => handleBackButton()} className="text-white">
       <FaArrowLeft />
     </button>
   )
