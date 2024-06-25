@@ -320,6 +320,7 @@ export const GithubProvider = ({ children }) => {
         getUserFollowers,
         getUserFollowing,
         getGists,
+        dispatch,
       }}
     >
       {children}

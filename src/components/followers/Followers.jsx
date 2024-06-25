@@ -33,7 +33,7 @@ const Followers = () => {
     <>
       {/* Back button */}
       <div className="mb-4">
-        <BackButton />
+        <BackButton type="followers" />
       </div>
       <div className="grid grid-cols-1 gap-8 text-white xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2">
         {/* No content message */}
