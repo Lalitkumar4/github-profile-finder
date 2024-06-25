@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react"
+import { createContext, useEffect, useReducer } from "react"
 import githubReducer from "./GithubReducer"
 
 const GithubContext = createContext()
@@ -15,11 +15,15 @@ export const GithubProvider = ({ children }) => {
     gists: [],
     loading: false,
     searched: true,
-    currentPage: 1,
+    currentPage: Number(localStorage.getItem("currentPage")) || 1,
     totalPages: 0,
   }
 
   const [state, dispatch] = useReducer(githubReducer, initialState)
+
+  useEffect(() => {
+    localStorage.setItem("currentPage", state.currentPage)
+  }, [state.currentPage])
 
   // Get search results
   const searchUsers = async (text, page = 1, perPage = 30) => {
@@ -84,6 +88,9 @@ export const GithubProvider = ({ children }) => {
     dispatch({ type: "SET_LOADING", payload: true })
 
     try {
+      // Reset currentPage to 1 when fetching a new user
+      dispatch({ type: "SET_CURRENT_PAGE", payload: 1 })
+
       const response = await fetch(
         `${import.meta.env.VITE_GITHUB_URL}/users/${login}`,
         {
@@ -147,7 +154,11 @@ export const GithubProvider = ({ children }) => {
   }
 
   // Get user followers
-  const getUserFollowers = async (login, page = 1, perPage = 30) => {
+  const getUserFollowers = async (
+    login,
+    page = state.currentPage,
+    perPage = 30
+  ) => {
     dispatch({ type: "SET_LOADING", payload: true })
 
     try {
