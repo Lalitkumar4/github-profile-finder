@@ -5,8 +5,9 @@ import GithubContext from "../../context/GithubContext"
 
 const PaginationButtons = ({ type }) => {
   const {
-    getUserFollowers,
     user,
+    getUserFollowers,
+    getUserFollowing,
     currentPage,
     totalPages,
     searchUsers,
@@ -20,6 +21,8 @@ const PaginationButtons = ({ type }) => {
         searchUsers(searchTerm, currentPage + 1)
       } else if (type === "followers") {
         getUserFollowers(user.login, currentPage + 1)
+      } else if (type === "following") {
+        getUserFollowing(user.login, currentPage + 1)
       }
     }
   }
@@ -31,6 +34,8 @@ const PaginationButtons = ({ type }) => {
         searchUsers(searchTerm, currentPage - 1)
       } else if (type === "followers") {
         getUserFollowers(user.login, currentPage - 1)
+      } else if (type === "following") {
+        getUserFollowing(user.login, currentPage - 1)
       }
     }
   }
