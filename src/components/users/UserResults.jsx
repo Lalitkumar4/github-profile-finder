@@ -7,7 +7,7 @@ import GithubContext from "../../context/GithubContext"
 import PaginationButtons from "../layout/PaginationButtons"
 
 const UserResults = () => {
-  const { users, loading, searched } = useContext(GithubContext)
+  const { users, loading, searched, currentPage } = useContext(GithubContext)
 
   if (!loading) {
     return (
@@ -31,9 +31,9 @@ const UserResults = () => {
             ))}
 
             {/* Paginate buttons  */}
-            {users.length >= 30 && (
+            {(users.length >= 30 || currentPage !== 1) && (
               <div className="col-span-full">
-                <PaginationButtons />
+                <PaginationButtons type="users" />
               </div>
             )}
           </>

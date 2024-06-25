@@ -147,12 +147,17 @@ export const GithubProvider = ({ children }) => {
   }
 
   // Get user followers
-  const getUserFollowers = async (login) => {
+  const getUserFollowers = async (login, page = 1, perPage = 30) => {
     dispatch({ type: "SET_LOADING", payload: true })
 
     try {
+      const params = new URLSearchParams({
+        page,
+        per_page: perPage,
+      })
+
       const response = await fetch(
-        `${import.meta.env.VITE_GITHUB_URL}/users/${login}/followers`,
+        `${import.meta.env.VITE_GITHUB_URL}/users/${login}/followers?${params}`,
         {
           headers: {
             Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
@@ -182,6 +187,25 @@ export const GithubProvider = ({ children }) => {
           type: "GET_USER_FOLLOWERS",
           payload: userFollowerInfo,
         })
+
+        // Calculate total pages only after user data is available
+        const userResponse = await fetch(
+          `${import.meta.env.VITE_GITHUB_URL}/users/${login}`,
+          {
+            headers: {
+              Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
+            },
+          }
+        )
+
+        const userData = await userResponse.json()
+
+        const totalPages = Math.ceil(userData.followers / perPage)
+
+        // Current page
+        dispatch({ type: "SET_CURRENT_PAGE", payload: page })
+        // Total pages
+        dispatch({ type: "SET_TOTAL_PAGES", payload: totalPages })
       }
     } catch (error) {
       console.groupEnd(error)

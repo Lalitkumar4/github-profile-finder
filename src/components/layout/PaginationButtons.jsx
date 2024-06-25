@@ -1,22 +1,37 @@
 import { useContext } from "react"
-import GithubContext from "../../context/GithubContext"
+import PropTypes from "prop-types"
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa"
+import GithubContext from "../../context/GithubContext"
 
-const PaginationButtons = () => {
-  const { currentPage, totalPages, searchUsers, searchTerm } =
-    useContext(GithubContext)
+const PaginationButtons = ({ type }) => {
+  const {
+    getUserFollowers,
+    user,
+    currentPage,
+    totalPages,
+    searchUsers,
+    searchTerm,
+  } = useContext(GithubContext)
 
   // Handle next page
   const handleNextPage = () => {
     if (currentPage < totalPages) {
-      searchUsers(searchTerm, currentPage + 1)
+      if (type === "users") {
+        searchUsers(searchTerm, currentPage + 1)
+      } else if (type === "followers") {
+        getUserFollowers(user.login, currentPage + 1)
+      }
     }
   }
 
   // Handle prev page
   const handlePrevPage = () => {
     if (currentPage > 1) {
-      searchUsers(searchTerm, currentPage - 1)
+      if (type === "users") {
+        searchUsers(searchTerm, currentPage - 1)
+      } else if (type === "followers") {
+        getUserFollowers(user.login, currentPage - 1)
+      }
     }
   }
 
@@ -49,6 +64,10 @@ const PaginationButtons = () => {
       </button>
     </div>
   )
+}
+
+PaginationButtons.propTypes = {
+  type: PropTypes.string,
 }
 
 export default PaginationButtons

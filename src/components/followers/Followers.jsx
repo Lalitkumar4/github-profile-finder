@@ -6,14 +6,22 @@ import Spinner from "../layout/Spinner"
 import BackButton from "../layout/BackButton"
 import NoContentMsg from "../layout/NoContentMsg"
 import GithubContext from "../../context/GithubContext"
+import PaginationButtons from "../layout/PaginationButtons"
 
 const Followers = () => {
-  const { userFollowers, getUserFollowers, loading } = useContext(GithubContext)
+  const { userFollowers, getUserFollowers, getUser, loading } =
+    useContext(GithubContext)
 
   const params = useParams()
 
   useEffect(() => {
-    getUserFollowers(params.login)
+    // getUser completes before getUserFollowers is called
+    const fetchUserData = async () => {
+      await getUser(params.login)
+      getUserFollowers(params.login)
+    }
+
+    fetchUserData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -37,10 +45,19 @@ const Followers = () => {
             />
           </div>
         ) : (
-          // User item for followers
-          userFollowers.map((follower) => (
-            <UserItem key={follower.id} user={follower} />
-          ))
+          <>
+            {/* User item for followers */}
+            {userFollowers.map((follower) => (
+              <UserItem key={follower.id} user={follower} />
+            ))}
+
+            {/* Paginate buttons  */}
+            {userFollowers.length >= 30 && (
+              <div className="col-span-full">
+                <PaginationButtons type="followers" />
+              </div>
+            )}
+          </>
         )}
       </div>
     </>

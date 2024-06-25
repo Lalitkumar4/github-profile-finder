@@ -60,7 +60,7 @@ const UserItem = ({ user }) => {
           {/* User bio */}
           {bio && <p className="my-1 text-sm max-h-fit">{bio}</p>}
 
-          <div className="flex justify-between my-1">
+          <div className="flex justify-between my-1 space-x-2">
             {/* User location */}
             {location && <p className="text-sm text-gray-400">{location}</p>}
 
