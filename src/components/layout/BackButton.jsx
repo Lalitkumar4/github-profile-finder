@@ -6,13 +6,13 @@ import GithubContext from "../../context/GithubContext"
 
 const BackButton = ({ type }) => {
   const {
-    currentPage,
-    dispatch,
+    user,
     getUserFollowers,
     getUserFollowing,
     getUserRepos,
-    getGists,
-    user,
+    getUserGists,
+    currentPage,
+    dispatch,
   } = useContext(GithubContext)
 
   const navigate = useNavigate()
@@ -31,7 +31,7 @@ const BackButton = ({ type }) => {
       } else if (type === "repos") {
         getUserRepos(user.login, null, 30, decreaseCurrentPage)
       } else if (type === "gists") {
-        getGists(user.login, decreaseCurrentPage)
+        getUserGists(user.login, decreaseCurrentPage)
       }
     } else {
       navigate(-1)

@@ -325,7 +325,11 @@ export const GithubProvider = ({ children }) => {
   }
 
   // Get gists
-  const getGists = async (login, page = state.currentPage, perPage = 30) => {
+  const getUserGists = async (
+    login,
+    page = state.currentPage,
+    perPage = 30
+  ) => {
     dispatch({ type: "SET_LOADING", payload: true })
 
     try {
@@ -383,22 +387,22 @@ export const GithubProvider = ({ children }) => {
     <GithubContext.Provider
       value={{
         users: state.users,
-        loading: state.loading,
         user: state.user,
         repos: state.repos,
         userFollowers: state.userFollowers,
         userFollowing: state.userFollowing,
         gists: state.gists,
+        loading: state.loading,
         searched: state.searched,
         currentPage: state.currentPage,
         totalPages: state.totalPages,
         searchTerm: state.searchTerm,
-        searchUsers,
         getUser,
         getUserRepos,
         getUserFollowers,
         getUserFollowing,
-        getGists,
+        getUserGists,
+        searchUsers,
         dispatch,
       }}
     >

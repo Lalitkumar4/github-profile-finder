@@ -4,11 +4,11 @@ import Gist from "./Gist"
 import Spinner from "../layout/Spinner"
 import BackButton from "../layout/BackButton"
 import NoContentMsg from "../layout/NoContentMsg"
-import GithubContext from "../../context/GithubContext"
 import PaginationButtons from "../layout/PaginationButtons"
+import GithubContext from "../../context/GithubContext"
 
 const Gists = () => {
-  const { gists, getGists, loading, getUser, currentPage } =
+  const { getUser, gists, getUserGists, loading, currentPage } =
     useContext(GithubContext)
 
   const params = useParams()
@@ -17,7 +17,7 @@ const Gists = () => {
     // getUser completes before getUserFollowers is called
     const fetchUserData = async () => {
       await getUser(params.login)
-      getGists(params.login)
+      getUserGists(params.login)
     }
 
     fetchUserData()

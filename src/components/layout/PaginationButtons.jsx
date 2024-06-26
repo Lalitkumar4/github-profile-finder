@@ -9,7 +9,7 @@ const PaginationButtons = ({ type }) => {
     getUserFollowers,
     getUserFollowing,
     getUserRepos,
-    getGists,
+    getUserGists,
     currentPage,
     totalPages,
     searchUsers,
@@ -28,7 +28,7 @@ const PaginationButtons = ({ type }) => {
       } else if (type === "repos") {
         getUserRepos(user.login, null, 30, currentPage + 1)
       } else if (type === "gists") {
-        getGists(user.login, currentPage + 1)
+        getUserGists(user.login, currentPage + 1)
       }
     }
   }
@@ -45,7 +45,7 @@ const PaginationButtons = ({ type }) => {
       } else if (type === "repos") {
         getUserRepos(user.login, null, 30, currentPage - 1)
       } else if (type === "gists") {
-        getGists(user.login, currentPage - 1)
+        getUserGists(user.login, currentPage - 1)
       }
     }
   }

@@ -3,8 +3,8 @@ import UserItem from "./UserItem"
 import GithubImg from "../layout/GithubImg"
 import SearchNotFind from "../layout/SearchNotFind"
 import Spinner from "../layout/Spinner"
-import GithubContext from "../../context/GithubContext"
 import PaginationButtons from "../layout/PaginationButtons"
+import GithubContext from "../../context/GithubContext"
 
 const UserResults = () => {
   const { users, loading, searched, currentPage } = useContext(GithubContext)

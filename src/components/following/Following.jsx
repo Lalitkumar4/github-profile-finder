@@ -5,11 +5,11 @@ import UserItem from "../users/UserItem"
 import Spinner from "../layout/Spinner"
 import BackButton from "../layout/BackButton"
 import NoContentMsg from "../layout/NoContentMsg"
-import GithubContext from "../../context/GithubContext"
 import PaginationButtons from "../layout/PaginationButtons"
+import GithubContext from "../../context/GithubContext"
 
 const Following = () => {
-  const { userFollowing, getUserFollowing, getUser, loading, currentPage } =
+  const { getUser, getUserFollowing, userFollowing, loading, currentPage } =
     useContext(GithubContext)
 
   const params = useParams()

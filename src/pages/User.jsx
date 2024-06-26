@@ -15,7 +15,7 @@ import UserStats from "../components/layout/UserStats"
 import GithubContext from "../context/GithubContext"
 
 const User = () => {
-  const { getUser, user, loading, getUserRepos, repos } =
+  const { getUser, user, getUserRepos, repos, loading } =
     useContext(GithubContext)
 
   const params = useParams()
