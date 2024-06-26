@@ -8,6 +8,7 @@ const PaginationButtons = ({ type }) => {
     user,
     getUserFollowers,
     getUserFollowing,
+    getUserRepos,
     currentPage,
     totalPages,
     searchUsers,
@@ -23,6 +24,8 @@ const PaginationButtons = ({ type }) => {
         getUserFollowers(user.login, currentPage + 1)
       } else if (type === "following") {
         getUserFollowing(user.login, currentPage + 1)
+      } else if (type === "repos") {
+        getUserRepos(user.login, null, 30, currentPage + 1)
       }
     }
   }
@@ -36,6 +39,8 @@ const PaginationButtons = ({ type }) => {
         getUserFollowers(user.login, currentPage - 1)
       } else if (type === "following") {
         getUserFollowing(user.login, currentPage - 1)
+      } else if (type === "repos") {
+        getUserRepos(user.login, null, 30, currentPage - 1)
       }
     }
   }
@@ -54,7 +59,7 @@ const PaginationButtons = ({ type }) => {
         {currentPage !== 1 && <FaAngleLeft className="mr-2" />}
         Previous
       </button>
-      <span className="px-2 py-1">{currentPage}</span>
+      <span className="px-2 py-1 text-white">{currentPage}</span>
       <button
         onClick={handleNextPage}
         disabled={currentPage === totalPages}

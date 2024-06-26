@@ -118,13 +118,19 @@ export const GithubProvider = ({ children }) => {
   }
 
   // Get user repos
-  const getUserRepos = async (login, limit = null) => {
+  const getUserRepos = async (
+    login,
+    limit = null,
+    perPage = 30,
+    page = state.currentPage
+  ) => {
     dispatch({ type: "SET_LOADING", payload: true })
 
     try {
       const params = new URLSearchParams({
         sort: "created",
-        per_page: limit,
+        per_page: limit || perPage,
+        page,
       })
 
       const response = await fetch(
@@ -145,6 +151,27 @@ export const GithubProvider = ({ children }) => {
           type: "GET_REPOS",
           payload: data,
         })
+
+        if (!limit) {
+          // Calculate total pages only after user data is available
+          const userResponse = await fetch(
+            `${import.meta.env.VITE_GITHUB_URL}/users/${login}`,
+            {
+              headers: {
+                Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
+              },
+            }
+          )
+
+          const userData = await userResponse.json()
+
+          const totalPages = Math.ceil(userData.public_repos / perPage)
+
+          // Current page
+          dispatch({ type: "SET_CURRENT_PAGE", payload: page })
+          // Total pages
+          dispatch({ type: "SET_TOTAL_PAGES", payload: totalPages })
+        }
       }
     } catch (error) {
       console.log(error)

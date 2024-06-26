@@ -5,8 +5,14 @@ import PropTypes from "prop-types"
 import GithubContext from "../../context/GithubContext"
 
 const BackButton = ({ type }) => {
-  const { currentPage, dispatch, getUserFollowers, getUserFollowing, user } =
-    useContext(GithubContext)
+  const {
+    currentPage,
+    dispatch,
+    getUserFollowers,
+    getUserFollowing,
+    getUserRepos,
+    user,
+  } = useContext(GithubContext)
 
   const navigate = useNavigate()
 
@@ -21,6 +27,8 @@ const BackButton = ({ type }) => {
         getUserFollowers(user.login, decreaseCurrentPage)
       } else if (type === "following") {
         getUserFollowing(user.login, decreaseCurrentPage)
+      } else if (type === "repos") {
+        getUserRepos(user.login, null, 30, decreaseCurrentPage)
       }
     } else {
       navigate(-1)

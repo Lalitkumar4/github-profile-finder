@@ -5,14 +5,22 @@ import Spinner from "../layout/Spinner"
 import BackButton from "../layout/BackButton"
 import NoContentMsg from "../layout/NoContentMsg"
 import GithubContext from "../../context/GithubContext"
+import PaginationButtons from "../layout/PaginationButtons"
 
 const RepoList = () => {
-  const { repos, getUserRepos, loading } = useContext(GithubContext)
+  const { repos, getUserRepos, getUser, loading, currentPage } =
+    useContext(GithubContext)
 
   const params = useParams()
 
   useEffect(() => {
-    getUserRepos(params.login)
+    // getUser completes before getUserFollowers is called
+    const fetchUserData = async () => {
+      await getUser(params.login)
+      getUserRepos(params.login)
+    }
+
+    fetchUserData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -24,7 +32,7 @@ const RepoList = () => {
     <>
       {/* Back button */}
       <div className="mb-4">
-        <BackButton />
+        <BackButton type="repos" />
       </div>
       <div>
         {/* No content message */}
@@ -33,8 +41,19 @@ const RepoList = () => {
             <NoContentMsg msg="doesn’t have any public repositories yet." />
           </div>
         ) : (
-          // Repo item
-          repos.map((repo) => <RepoItem key={repo.id} repo={repo} />)
+          <>
+            {/* Repo item */}
+            {repos.map((repo) => (
+              <RepoItem key={repo.id} repo={repo} />
+            ))}
+
+            {/* Paginate buttons  */}
+            {(repos.length >= 30 || currentPage !== 1) && (
+              <div className="col-span-full">
+                <PaginationButtons type="repos" />
+              </div>
+            )}
+          </>
         )}
       </div>
     </>

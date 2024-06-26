@@ -9,7 +9,7 @@ import GithubContext from "../../context/GithubContext"
 import PaginationButtons from "../layout/PaginationButtons"
 
 const Followers = () => {
-  const { userFollowers, getUserFollowers, getUser, loading } =
+  const { userFollowers, getUserFollowers, getUser, loading, currentPage } =
     useContext(GithubContext)
 
   const params = useParams()
@@ -52,7 +52,7 @@ const Followers = () => {
             ))}
 
             {/* Paginate buttons  */}
-            {userFollowers.length >= 30 && (
+            {(userFollowers.length >= 30 || currentPage !== 1) && (
               <div className="col-span-full">
                 <PaginationButtons type="followers" />
               </div>
