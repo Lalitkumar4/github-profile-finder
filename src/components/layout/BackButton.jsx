@@ -11,6 +11,7 @@ const BackButton = ({ type }) => {
     getUserFollowers,
     getUserFollowing,
     getUserRepos,
+    getGists,
     user,
   } = useContext(GithubContext)
 
@@ -29,6 +30,8 @@ const BackButton = ({ type }) => {
         getUserFollowing(user.login, decreaseCurrentPage)
       } else if (type === "repos") {
         getUserRepos(user.login, null, 30, decreaseCurrentPage)
+      } else if (type === "gists") {
+        getGists(user.login, decreaseCurrentPage)
       }
     } else {
       navigate(-1)

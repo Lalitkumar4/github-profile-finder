@@ -325,12 +325,17 @@ export const GithubProvider = ({ children }) => {
   }
 
   // Get gists
-  const getGists = async (login) => {
+  const getGists = async (login, page = state.currentPage, perPage = 30) => {
     dispatch({ type: "SET_LOADING", payload: true })
 
     try {
+      const params = new URLSearchParams({
+        page,
+        per_page: perPage,
+      })
+
       const response = await fetch(
-        `${import.meta.env.VITE_GITHUB_URL}/users/${login}/gists`,
+        `${import.meta.env.VITE_GITHUB_URL}/users/${login}/gists?${params}`,
         {
           headers: {
             Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
@@ -347,6 +352,25 @@ export const GithubProvider = ({ children }) => {
           type: "GET_GISTS",
           payload: data,
         })
+
+        // Calculate total pages only after user data is available
+        const userResponse = await fetch(
+          `${import.meta.env.VITE_GITHUB_URL}/users/${login}`,
+          {
+            headers: {
+              Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
+            },
+          }
+        )
+
+        const userData = await userResponse.json()
+
+        const totalPages = Math.ceil(userData.public_gists / perPage)
+
+        // Current page
+        dispatch({ type: "SET_CURRENT_PAGE", payload: page })
+        // Total pages
+        dispatch({ type: "SET_TOTAL_PAGES", payload: totalPages })
       }
     } catch (error) {
       console.log(error)
