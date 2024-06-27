@@ -50,17 +50,7 @@ export const GithubProvider = ({ children }) => {
       const totalPages = Math.ceil(total_count / perPage)
 
       // Fetching more details for each user
-      const userInfo = await Promise.all(
-        items.map(async (user) => {
-          const response = await fetch(user.url, {
-            headers: {
-              Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
-            },
-          })
-          const data = await response.json()
-          return data
-        })
-      )
+      const userInfo = await fetchDetailedUsers(items)
 
       dispatch({
         type: "GET_USERS",
@@ -70,10 +60,8 @@ export const GithubProvider = ({ children }) => {
       // Set search term for pagination
       dispatch({ type: "SET_SEARCH_TERM", payload: text })
 
-      // Current page
-      dispatch({ type: "SET_CURRENT_PAGE", payload: page })
-      // Total pages
-      dispatch({ type: "SET_TOTAL_PAGES", payload: totalPages })
+      // Set page
+      setPage(page, totalPages)
 
       dispatch({ type: "SET_SEARCHED" })
     } catch (error) {
@@ -109,6 +97,108 @@ export const GithubProvider = ({ children }) => {
           type: "GET_USER",
           payload: data,
         })
+      }
+    } catch (error) {
+      console.log(error)
+    } finally {
+      dispatch({ type: "SET_LOADING", payload: false })
+    }
+  }
+
+  // Get user followers
+  const getUserFollowers = async (
+    login,
+    page = state.currentPage,
+    perPage = 30
+  ) => {
+    dispatch({ type: "SET_LOADING", payload: true })
+
+    try {
+      const params = new URLSearchParams({
+        page,
+        per_page: perPage,
+      })
+
+      const response = await fetch(
+        `${import.meta.env.VITE_GITHUB_URL}/users/${login}/followers?${params}`,
+        {
+          headers: {
+            Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
+          },
+        }
+      )
+
+      if (response.status === 404) {
+        window.location = "/notfound"
+      } else {
+        const data = await response.json()
+
+        // Fetching more details for each user
+        const userFollowerInfo = await fetchDetailedUsers(data)
+
+        dispatch({
+          type: "GET_USER_FOLLOWERS",
+          payload: userFollowerInfo,
+        })
+
+        // Calculate total pages only after user data is available
+        const userData = await fetchUser(login)
+
+        const totalPages = Math.ceil(userData.followers / perPage)
+
+        // Set page
+        setPage(page, totalPages)
+      }
+    } catch (error) {
+      console.groupEnd(error)
+    } finally {
+      dispatch({ type: "SET_LOADING", payload: false })
+    }
+  }
+
+  // Get user following
+  const getUserFollowing = async (
+    login,
+    page = state.currentPage,
+    perPage = 30
+  ) => {
+    dispatch({ type: "SET_LOADING", payload: true })
+
+    try {
+      const params = new URLSearchParams({
+        page,
+        per_page: perPage,
+      })
+
+      const response = await fetch(
+        `${import.meta.env.VITE_GITHUB_URL}/users/${login}/following?${params}`,
+        {
+          headers: {
+            Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
+          },
+        }
+      )
+
+      if (response.status === 404) {
+        window.location = "/notfound"
+      } else {
+        const data = await response.json()
+
+        // Fetching more details for each user
+        const userFollowingInfo = await fetchDetailedUsers(data)
+
+        dispatch({
+          type: "GET_USER_FOLLOWING",
+          payload: userFollowingInfo,
+        })
+
+        // Calculate total pages only after user data is available
+        const userData = await fetchUser(login)
+
+        const totalPages = Math.ceil(userData.following / perPage)
+
+        // Set page
+        setPage(page, totalPages)
       }
     } catch (error) {
       console.log(error)
@@ -154,168 +244,13 @@ export const GithubProvider = ({ children }) => {
 
         if (!limit) {
           // Calculate total pages only after user data is available
-          const userResponse = await fetch(
-            `${import.meta.env.VITE_GITHUB_URL}/users/${login}`,
-            {
-              headers: {
-                Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
-              },
-            }
-          )
-
-          const userData = await userResponse.json()
+          const userData = await fetchUser(login)
 
           const totalPages = Math.ceil(userData.public_repos / perPage)
 
-          // Current page
-          dispatch({ type: "SET_CURRENT_PAGE", payload: page })
-          // Total pages
-          dispatch({ type: "SET_TOTAL_PAGES", payload: totalPages })
+          // Set page
+          setPage(page, totalPages)
         }
-      }
-    } catch (error) {
-      console.log(error)
-    } finally {
-      dispatch({ type: "SET_LOADING", payload: false })
-    }
-  }
-
-  // Get user followers
-  const getUserFollowers = async (
-    login,
-    page = state.currentPage,
-    perPage = 30
-  ) => {
-    dispatch({ type: "SET_LOADING", payload: true })
-
-    try {
-      const params = new URLSearchParams({
-        page,
-        per_page: perPage,
-      })
-
-      const response = await fetch(
-        `${import.meta.env.VITE_GITHUB_URL}/users/${login}/followers?${params}`,
-        {
-          headers: {
-            Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
-          },
-        }
-      )
-
-      if (response.status === 404) {
-        window.location = "/notfound"
-      } else {
-        const data = await response.json()
-
-        // Fetching more details for each user followers
-        const userFollowerInfo = await Promise.all(
-          data.map(async (userFollower) => {
-            const response = await fetch(userFollower.url, {
-              headers: {
-                Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
-              },
-            })
-            const data = await response.json()
-            return data
-          })
-        )
-
-        dispatch({
-          type: "GET_USER_FOLLOWERS",
-          payload: userFollowerInfo,
-        })
-
-        // Calculate total pages only after user data is available
-        const userResponse = await fetch(
-          `${import.meta.env.VITE_GITHUB_URL}/users/${login}`,
-          {
-            headers: {
-              Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
-            },
-          }
-        )
-
-        const userData = await userResponse.json()
-
-        const totalPages = Math.ceil(userData.followers / perPage)
-
-        // Current page
-        dispatch({ type: "SET_CURRENT_PAGE", payload: page })
-        // Total pages
-        dispatch({ type: "SET_TOTAL_PAGES", payload: totalPages })
-      }
-    } catch (error) {
-      console.groupEnd(error)
-    } finally {
-      dispatch({ type: "SET_LOADING", payload: false })
-    }
-  }
-
-  // Get user following
-  const getUserFollowing = async (
-    login,
-    page = state.currentPage,
-    perPage = 30
-  ) => {
-    dispatch({ type: "SET_LOADING", payload: true })
-
-    try {
-      const params = new URLSearchParams({
-        page,
-        per_page: perPage,
-      })
-
-      const response = await fetch(
-        `${import.meta.env.VITE_GITHUB_URL}/users/${login}/following?${params}`,
-        {
-          headers: {
-            Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
-          },
-        }
-      )
-
-      if (response.status === 404) {
-        window.location = "/notfound"
-      } else {
-        const data = await response.json()
-
-        // Fetching more details for each user following
-        const userFollowingInfo = await Promise.all(
-          data.map(async (userFollowing) => {
-            const response = await fetch(userFollowing.url, {
-              headers: {
-                Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
-              },
-            })
-            const data = await response.json()
-            return data
-          })
-        )
-
-        dispatch({
-          type: "GET_USER_FOLLOWING",
-          payload: userFollowingInfo,
-        })
-
-        // Calculate total pages only after user data is available
-        const userResponse = await fetch(
-          `${import.meta.env.VITE_GITHUB_URL}/users/${login}`,
-          {
-            headers: {
-              Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
-            },
-          }
-        )
-
-        const userData = await userResponse.json()
-
-        const totalPages = Math.ceil(userData.followers / perPage)
-
-        // Current page
-        dispatch({ type: "SET_CURRENT_PAGE", payload: page })
-        // Total pages
-        dispatch({ type: "SET_TOTAL_PAGES", payload: totalPages })
       }
     } catch (error) {
       console.log(error)
@@ -358,23 +293,12 @@ export const GithubProvider = ({ children }) => {
         })
 
         // Calculate total pages only after user data is available
-        const userResponse = await fetch(
-          `${import.meta.env.VITE_GITHUB_URL}/users/${login}`,
-          {
-            headers: {
-              Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
-            },
-          }
-        )
-
-        const userData = await userResponse.json()
+        const userData = await fetchUser(login)
 
         const totalPages = Math.ceil(userData.public_gists / perPage)
 
-        // Current page
-        dispatch({ type: "SET_CURRENT_PAGE", payload: page })
-        // Total pages
-        dispatch({ type: "SET_TOTAL_PAGES", payload: totalPages })
+        // Set page
+        setPage(page, totalPages)
       }
     } catch (error) {
       console.log(error)
@@ -383,20 +307,48 @@ export const GithubProvider = ({ children }) => {
     }
   }
 
+  // function: Fetching more details for each user
+  const fetchDetailedUsers = async (items) => {
+    const userDetails = await Promise.all(
+      items.map(async (user) => {
+        const response = await fetch(user.url, {
+          headers: {
+            Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
+          },
+        })
+        const data = await response.json()
+        return data
+      })
+    )
+    return userDetails
+  }
+
+  // Function: Calculate total pages only after user data is available
+  const fetchUser = async (login) => {
+    const userResponse = await fetch(
+      `${import.meta.env.VITE_GITHUB_URL}/users/${login}`,
+      {
+        headers: {
+          Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
+        },
+      }
+    )
+    const userData = await userResponse.json()
+    return userData
+  }
+
+  // Set page function
+  const setPage = (page, totalPages) => {
+    // Current page
+    dispatch({ type: "SET_CURRENT_PAGE", payload: page })
+    // Total pages
+    dispatch({ type: "SET_TOTAL_PAGES", payload: totalPages })
+  }
+
   return (
     <GithubContext.Provider
       value={{
-        users: state.users,
-        user: state.user,
-        repos: state.repos,
-        userFollowers: state.userFollowers,
-        userFollowing: state.userFollowing,
-        gists: state.gists,
-        loading: state.loading,
-        searched: state.searched,
-        currentPage: state.currentPage,
-        totalPages: state.totalPages,
-        searchTerm: state.searchTerm,
+        ...state,
         getUser,
         getUserRepos,
         getUserFollowers,
