@@ -1,7 +1,17 @@
 import { createContext, useEffect, useReducer } from "react"
+import axios from "axios"
 import githubReducer from "./GithubReducer"
 
 const GithubContext = createContext()
+
+const GITHUB_URL = import.meta.env.VITE_GITHUB_URL
+const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN
+
+// Axios instance
+const github = axios.create({
+  baseURL: GITHUB_URL,
+  headers: { Authorization: `token ${GITHUB_TOKEN}` },
+})
 
 // eslint-disable-next-line react/prop-types
 export const GithubProvider = ({ children }) => {
@@ -36,16 +46,9 @@ export const GithubProvider = ({ children }) => {
         per_page: perPage,
       })
 
-      const response = await fetch(
-        `${import.meta.env.VITE_GITHUB_URL}/search/users?${params}`,
-        {
-          headers: {
-            Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
-          },
-        }
-      )
+      const response = await github.get(`/search/users?${params}`)
 
-      const { items, total_count } = await response.json()
+      const { items, total_count } = response.data
 
       const totalPages = Math.ceil(total_count / perPage)
 
@@ -79,23 +82,14 @@ export const GithubProvider = ({ children }) => {
       // Reset currentPage to 1 when fetching a new user
       dispatch({ type: "SET_CURRENT_PAGE", payload: 1 })
 
-      const response = await fetch(
-        `${import.meta.env.VITE_GITHUB_URL}/users/${login}`,
-        {
-          headers: {
-            Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
-          },
-        }
-      )
+      const response = await github.get(`/users/${login}`)
 
       if (response.status === 404) {
         window.location = "/notfound"
       } else {
-        const data = await response.json()
-
         dispatch({
           type: "GET_USER",
-          payload: data,
+          payload: response.data,
         })
       }
     } catch (error) {
@@ -119,22 +113,13 @@ export const GithubProvider = ({ children }) => {
         per_page: perPage,
       })
 
-      const response = await fetch(
-        `${import.meta.env.VITE_GITHUB_URL}/users/${login}/followers?${params}`,
-        {
-          headers: {
-            Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
-          },
-        }
-      )
+      const response = await github.get(`/users/${login}/followers?${params}`)
 
       if (response.status === 404) {
         window.location = "/notfound"
       } else {
-        const data = await response.json()
-
         // Fetching more details for each user
-        const userFollowerInfo = await fetchDetailedUsers(data)
+        const userFollowerInfo = await fetchDetailedUsers(response.data)
 
         dispatch({
           type: "GET_USER_FOLLOWERS",
@@ -170,22 +155,13 @@ export const GithubProvider = ({ children }) => {
         per_page: perPage,
       })
 
-      const response = await fetch(
-        `${import.meta.env.VITE_GITHUB_URL}/users/${login}/following?${params}`,
-        {
-          headers: {
-            Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
-          },
-        }
-      )
+      const response = await github.get(`/users/${login}/following?${params}`)
 
       if (response.status === 404) {
         window.location = "/notfound"
       } else {
-        const data = await response.json()
-
         // Fetching more details for each user
-        const userFollowingInfo = await fetchDetailedUsers(data)
+        const userFollowingInfo = await fetchDetailedUsers(response.data)
 
         dispatch({
           type: "GET_USER_FOLLOWING",
@@ -223,23 +199,14 @@ export const GithubProvider = ({ children }) => {
         page,
       })
 
-      const response = await fetch(
-        `${import.meta.env.VITE_GITHUB_URL}/users/${login}/repos?${params}`,
-        {
-          headers: {
-            Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
-          },
-        }
-      )
+      const response = await github.get(`/users/${login}/repos?${params}`)
 
       if (response.status === 404) {
         window.location = "/notfound"
       } else {
-        const data = await response.json()
-
         dispatch({
           type: "GET_REPOS",
-          payload: data,
+          payload: response.data,
         })
 
         if (!limit) {
@@ -273,23 +240,14 @@ export const GithubProvider = ({ children }) => {
         per_page: perPage,
       })
 
-      const response = await fetch(
-        `${import.meta.env.VITE_GITHUB_URL}/users/${login}/gists?${params}`,
-        {
-          headers: {
-            Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
-          },
-        }
-      )
+      const response = await github.get(`/users/${login}/gists?${params}`)
 
       if (response.status === 404) {
         window.location = "/notfound"
       } else {
-        const data = await response.json()
-
         dispatch({
           type: "GET_GISTS",
-          payload: data,
+          payload: response.data,
         })
 
         // Calculate total pages only after user data is available
@@ -311,13 +269,12 @@ export const GithubProvider = ({ children }) => {
   const fetchDetailedUsers = async (items) => {
     const userDetails = await Promise.all(
       items.map(async (user) => {
-        const response = await fetch(user.url, {
+        const response = await axios.get(user.url, {
           headers: {
-            Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
+            Authorization: `token ${GITHUB_TOKEN}`,
           },
         })
-        const data = await response.json()
-        return data
+        return response.data
       })
     )
     return userDetails
@@ -325,16 +282,8 @@ export const GithubProvider = ({ children }) => {
 
   // Function: Calculate total pages only after user data is available
   const fetchUser = async (login) => {
-    const userResponse = await fetch(
-      `${import.meta.env.VITE_GITHUB_URL}/users/${login}`,
-      {
-        headers: {
-          Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
-        },
-      }
-    )
-    const userData = await userResponse.json()
-    return userData
+    const userResponse = await github.get(`/users/${login}`)
+    return userResponse.data
   }
 
   // Set page function
