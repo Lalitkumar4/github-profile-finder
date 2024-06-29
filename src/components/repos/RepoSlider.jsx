@@ -12,7 +12,7 @@ const RepoSlider = ({ repos }) => {
     <div>
       <h2 className="my-3 text-gray-300 text-md">Latest Repository</h2>
       {/* Repo slider div */}
-      <div className="bg-[rgb(13,17,23)] px-4 rounded-lg">
+      <div className="bg-[#161B22] px-4 rounded-lg">
         <Swiper
           modules={[Navigation, Pagination, Scrollbar, A11y]}
           slidesPerView={1}

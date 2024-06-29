@@ -13,6 +13,7 @@ import Spinner from "../components/layout/Spinner"
 import BackButton from "../components/layout/BackButton"
 import UserStats from "../components/layout/UserStats"
 import GithubContext from "../context/GithubContext"
+import GitHubContributionsCalendar from "../components/gitHubCalendar/GitHubContributionsCalendar"
 
 const User = () => {
   const { getUser, user, getUserRepos, repos, loading } =
@@ -60,7 +61,7 @@ const User = () => {
 
   return (
     // User div
-    <div className="text-white rounded-xl p-8 bg-[#161B22]">
+    <div className="p-8 text-white bg-[#0000003a] rounded-xl">
       {/* Back button */}
       <div className="mb-4">
         <BackButton />
@@ -212,6 +213,11 @@ const User = () => {
           {/* Repo slider */}
           <div className="col-span-4">
             <RepoSlider repos={repos} />
+          </div>
+
+          {/* Github Calender */}
+          <div className="p-4 mt-16 border border-gray-700 rounded-lg">
+            <GitHubContributionsCalendar />
           </div>
         </div>
       </div>

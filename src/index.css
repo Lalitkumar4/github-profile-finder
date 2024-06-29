@@ -37,6 +37,15 @@ body {
   }
 }
 
+/* Tooltip */
+.react-tooltip {
+  background-color: #6e7681 !important;
+  color: #fff !important;
+  padding: 6px !important;
+  border-radius: 8px !important;
+  font-size: 12px !important;
+}
+
 /* Media Querys */
 @media (max-width: 435px) {
   form .input-left-side {
