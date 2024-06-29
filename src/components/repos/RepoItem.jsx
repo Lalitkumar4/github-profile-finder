@@ -58,7 +58,7 @@ const RepoItem = ({ repo }) => {
       </a>
 
       {/* Repo visibility tag */}
-      <p className="inline px-1 text-xs text-gray-300 border border-gray-400 rounded-full">
+      <p className="inline px-1 text-xs font-medium text-gray-400 border border-gray-600 rounded-full">
         {visibility.charAt(0).toUpperCase() + visibility.slice(1)}
       </p>
 
