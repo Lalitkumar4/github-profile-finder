@@ -2,7 +2,7 @@
 
 GitHub User Explorer is a React app that lets you search for GitHub users and see their profiles, repositories, followers, following, and gists. It connects with the GitHub API and offers a simple interface for browsing user data.
 
-👉 Live Demo: [Github User Explorer]()
+👉 Live Demo: [Github User Explorer](https://github-user-explorer-iota.vercel.app/)
 
 ## 📦 Technologies
 - `React.js`
