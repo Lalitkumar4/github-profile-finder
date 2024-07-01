@@ -6,11 +6,18 @@ import Spinner from "../layout/Spinner"
 import BackButton from "../layout/BackButton"
 import NoContentMsg from "../layout/NoContentMsg"
 import PaginationButtons from "../layout/PaginationButtons"
+import Error from "../layout/Error"
 import GithubContext from "../../context/GithubContext"
 
 const Following = () => {
-  const { getUser, getUserFollowing, userFollowing, loading, currentPage } =
-    useContext(GithubContext)
+  const {
+    getUser,
+    getUserFollowing,
+    userFollowing,
+    loading,
+    currentPage,
+    error,
+  } = useContext(GithubContext)
 
   const params = useParams()
 
@@ -27,6 +34,10 @@ const Following = () => {
 
   if (loading) {
     return <Spinner />
+  }
+
+  if (error.status !== null || error.message !== null) {
+    return <Error />
   }
 
   return (

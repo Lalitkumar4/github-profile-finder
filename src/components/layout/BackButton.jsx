@@ -13,6 +13,7 @@ const BackButton = ({ type }) => {
     getUserGists,
     currentPage,
     dispatch,
+    error,
   } = useContext(GithubContext)
 
   const navigate = useNavigate()
@@ -40,7 +41,14 @@ const BackButton = ({ type }) => {
 
   return (
     <button onClick={() => handleBackButton()} className="text-white">
-      <FaArrowLeft />
+      {error.status !== null || error.message !== null ? (
+        <div className="px-4 py-2 text-white bg-blue-700 rounded-full hover:scale-105 hover:bg-blue-500 hover:transition-all">
+          <FaArrowLeft className="inline mr-2" />
+          Go Back
+        </div>
+      ) : (
+        <FaArrowLeft />
+      )}
     </button>
   )
 }

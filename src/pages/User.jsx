@@ -13,10 +13,11 @@ import Spinner from "../components/layout/Spinner"
 import BackButton from "../components/layout/BackButton"
 import UserStats from "../components/layout/UserStats"
 import GithubContext from "../context/GithubContext"
+import Error from "../components/layout/Error"
 import GitHubContributionsCalendar from "../components/gitHubCalendar/GitHubContributionsCalendar"
 
 const User = () => {
-  const { getUser, user, getUserRepos, repos, loading } =
+  const { getUser, user, getUserRepos, repos, loading, error, resetError } =
     useContext(GithubContext)
 
   const params = useParams()
@@ -24,6 +25,11 @@ const User = () => {
   useEffect(() => {
     getUser(params.login)
     getUserRepos(params.login, 10) // limit 10 for slider
+
+    // Cleanup function to reset error when component unmounts
+    return () => {
+      resetError()
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -43,11 +49,6 @@ const User = () => {
     public_gists,
   } = user
 
-  // Spinner
-  if (loading) {
-    return <Spinner />
-  }
-
   // check for valid url to users website
   const websiteURL = blog?.startsWith("http") ? blog : "https://" + blog
 
@@ -57,6 +58,15 @@ const User = () => {
       return (value / 1000).toFixed(1) + "k"
     }
     return value
+  }
+
+  if (error.status !== null || error.message !== null) {
+    return <Error />
+  }
+
+  // Spinner
+  if (loading) {
+    return <Spinner />
   }
 
   return (

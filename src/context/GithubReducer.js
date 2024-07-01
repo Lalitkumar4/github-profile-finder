@@ -55,6 +55,16 @@ const githubReducer = (state, action) => {
         ...state,
         searchTerm: action.payload,
       }
+    case "SET_ERROR":
+      return {
+        ...state,
+        error: action.payload,
+      }
+    case "RESET_ERROR":
+      return {
+        ...state,
+        error: action.payload,
+      }
     default:
       return state
   }

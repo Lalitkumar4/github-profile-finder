@@ -27,6 +27,10 @@ export const GithubProvider = ({ children }) => {
     searched: true,
     currentPage: Number(localStorage.getItem("currentPage")) || 1,
     totalPages: 0,
+    error: {
+      status: null,
+      message: null,
+    },
   }
 
   const [state, dispatch] = useReducer(githubReducer, initialState)
@@ -67,8 +71,10 @@ export const GithubProvider = ({ children }) => {
       setPage(page, totalPages)
 
       dispatch({ type: "SET_SEARCHED" })
+
+      resetError()
     } catch (error) {
-      console.log(error)
+      handleError(error)
     } finally {
       dispatch({ type: "SET_LOADING", payload: false })
     }
@@ -92,8 +98,9 @@ export const GithubProvider = ({ children }) => {
           payload: response.data,
         })
       }
+      resetError()
     } catch (error) {
-      console.log(error)
+      handleError(error)
     } finally {
       dispatch({ type: "SET_LOADING", payload: false })
     }
@@ -133,9 +140,11 @@ export const GithubProvider = ({ children }) => {
 
         // Set page
         setPage(page, totalPages)
+
+        resetError()
       }
     } catch (error) {
-      console.groupEnd(error)
+      handleError(error)
     } finally {
       dispatch({ type: "SET_LOADING", payload: false })
     }
@@ -175,9 +184,11 @@ export const GithubProvider = ({ children }) => {
 
         // Set page
         setPage(page, totalPages)
+
+        resetError()
       }
     } catch (error) {
-      console.log(error)
+      handleError(error)
     } finally {
       dispatch({ type: "SET_LOADING", payload: false })
     }
@@ -217,10 +228,12 @@ export const GithubProvider = ({ children }) => {
 
           // Set page
           setPage(page, totalPages)
+
+          resetError()
         }
       }
     } catch (error) {
-      console.log(error)
+      handleError(error)
     } finally {
       dispatch({ type: "SET_LOADING", payload: false })
     }
@@ -257,9 +270,11 @@ export const GithubProvider = ({ children }) => {
 
         // Set page
         setPage(page, totalPages)
+
+        resetError()
       }
     } catch (error) {
-      console.log(error)
+      handleError(error)
     } finally {
       dispatch({ type: "SET_LOADING", payload: false })
     }
@@ -274,6 +289,7 @@ export const GithubProvider = ({ children }) => {
             Authorization: `token ${GITHUB_TOKEN}`,
           },
         })
+        resetError()
         return response.data
       })
     )
@@ -283,6 +299,7 @@ export const GithubProvider = ({ children }) => {
   // Function: Calculate total pages only after user data is available
   const fetchUser = async (login) => {
     const userResponse = await github.get(`/users/${login}`)
+    resetError()
     return userResponse.data
   }
 
@@ -292,6 +309,40 @@ export const GithubProvider = ({ children }) => {
     dispatch({ type: "SET_CURRENT_PAGE", payload: page })
     // Total pages
     dispatch({ type: "SET_TOTAL_PAGES", payload: totalPages })
+  }
+
+  const handleError = (error) => {
+    let errorMsg = "An unexpected error occurred"
+
+    if (error.response) {
+      switch (error.response.status) {
+        case 403:
+          errorMsg =
+            "Access Forbidden. Sorry, you don't have permission to access this resource."
+          break
+        case 500:
+          errorMsg = "Internal server error. Please try again later."
+          break
+        default:
+          errorMsg = error.response.data.message || errorMsg
+      }
+
+      dispatch({
+        type: "SET_ERROR",
+        payload: { status: error.response.status, message: errorMsg },
+      })
+    } else {
+      // Something else caused an error
+      dispatch({
+        type: "SET_ERROR",
+        payload: { status: null, message: error.message },
+      })
+    }
+  }
+
+  // Reset error on success
+  const resetError = () => {
+    dispatch({ type: "RESET_ERROR", payload: { status: null, message: null } })
   }
 
   return (
@@ -305,6 +356,7 @@ export const GithubProvider = ({ children }) => {
         getUserGists,
         searchUsers,
         dispatch,
+        resetError,
       }}
     >
       {children}
