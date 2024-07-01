@@ -1,7 +1,7 @@
 import PropTypes from "prop-types"
 import { FaGithub } from "react-icons/fa"
 
-const Navbar = ({ title = "Github Profile Finder" }) => {
+const Navbar = ({ title = "Github User Explorer" }) => {
   return (
     <nav className="p-4 mb-8 shadow-lg bg-[#161B22] text-white">
       <div className="container mx-auto">
