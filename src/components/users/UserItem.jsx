@@ -40,7 +40,7 @@ const UserItem = ({ user }) => {
             </div>
           </div>
         </div>
-        <div>
+        <div className="break-all">
           {/* Full name link */}
           <Link
             to={`/user/${login}`}
