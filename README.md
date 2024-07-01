@@ -37,7 +37,7 @@ To run the project in your local environment, follow these steps:
 
   Create a `.env` file in the root directory and add the following environment variables:
 
-  ```env
+  ```
   VITE_GITHUB_URL=https://api.github.com
   VITE_GITHUB_TOKEN=your_github_token
   ```
