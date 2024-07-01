@@ -46,8 +46,10 @@ To run the project in your local environment, follow these steps:
 5. To start the project, use `npm run dev`.
 6. To access the app, open your web browser and navigate to http://localhost:3000 (or the address displayed in your console).
 
-## Contributing
+## License
+This project is licensed under the [MIT License](https://github.com/Lalitkumar4/github-user-explorer/blob/main/LICENSE).
 
+## Contributing
 Contributions are welcome! If you want to contribute to this project, please fork the repository and make a pull request.
 
 
